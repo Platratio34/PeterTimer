@@ -1,0 +1,8 @@
+main: peterTimer.Main
+name: PeterTimer
+version: 0.1
+api-version: 1.15
+author: Platratio34
+commands:
+  timer:
+    usage: /timer <timer> <add|remove|start|stop|time> [args]
