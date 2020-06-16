@@ -18,6 +18,7 @@ public class Timer {
 	private int timeBetween = 1;
 	private BukkitScheduler scheduler;
 	private JavaPlugin plugin;
+	private static int timerN;
 	
 	public Timer(int time, String name, Map<Integer,TimeRunnable> callbacks, Boolean showTime, JavaPlugin plugin) {
 		this.showTime = showTime;
@@ -29,6 +30,18 @@ public class Timer {
 		}
 		scheduler = plugin.getServer().getScheduler();
 		reset();
+	}
+	public Timer(int time, Map<Integer,TimeRunnable> callbacks, Boolean showTime, JavaPlugin plugin) {
+		this.showTime = showTime;
+		this.name = "default-" + timerN;
+		this.callbacks = callbacks;
+		this.plugin = plugin;
+		if(time > 1) {
+			totalTime = time;
+		}
+		scheduler = plugin.getServer().getScheduler();
+		reset();
+		timerN++;
 	}
 	
 	public int getTicksRemaning() {
