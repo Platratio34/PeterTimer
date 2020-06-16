@@ -87,7 +87,9 @@ public class Timer {
 			callbacks.get(0).run(this);
 		} else {
 			if(running) {
-				callbacks.get(timeRemaning).run(this);
+				if(callbacks.get(timeRemaning) != null) {
+					callbacks.get(timeRemaning).run(this);
+				}
 				scheduler.scheduleSyncDelayedTask(plugin, new Runnable() {
 					 
 					 @Override
