@@ -143,12 +143,14 @@ public class Timer {
 	 * Starts the timer
 	 */
 	public void start() {
-		running = true;
-		for(Player player : Bukkit.getServer().getOnlinePlayers()) {
-			bar.addPlayer(player);
+		if(running = false) {
+			running = true;
+			for(Player player : Bukkit.getServer().getOnlinePlayers()) {
+				bar.addPlayer(player);
+			}
+			bar.setVisible(true);
+			update(0);
 		}
-		bar.setVisible(true);
-		update(0);
 	}
 	/**
 	 * Stops the timer
