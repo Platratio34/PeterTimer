@@ -82,6 +82,14 @@ public class Timer {
 	}
 	
 	/**
+	 * Returns the name of the timer
+	 * @return name
+	 */
+	public String getName() {
+		return name;
+	}
+	
+	/**
 	 * Sets whether or not to automatically change the color of the bar
 	 * @param change - Whether or not to automatically change the color of the bar
 	 */
@@ -98,13 +106,13 @@ public class Timer {
 		bar = Bukkit.createBossBar(name, BarColor.WHITE, BarStyle.SOLID);
 		stop();
 		timeRemaning = totalTime;
+		int s = timeRemaning/20;
+		int m = s/60;
+		s -= m*60;
 		if(showTime) {
-			int s = timeRemaning/20;
-			int m = s/60;
-			s -= m*60;
 			title = m + ":" + s;
 		} else {
-			title = name;
+			title = name + " " + m + ":" + s;
 		}
 		bar.setTitle(title);
 		bar.setProgress(1.0);
@@ -135,11 +143,13 @@ public class Timer {
 	 */
 	public void update(int dTime) {
 		timeRemaning -= dTime;
+		int s = timeRemaning/20;
+		int m = s/60;
+		s -= m*60;
 		if(showTime) {
-			int s = timeRemaning/20;
-			int m = s/60;
-			s -= m*60;
 			title = m + ":" + s;
+		} else {
+			title = name + " " + m + ":" + s;
 		}
 		if(autoChange) {
 			if(timeRemaning <= Math.min(200, totalTime/5)) {

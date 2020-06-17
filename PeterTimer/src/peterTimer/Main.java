@@ -8,9 +8,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Main extends JavaPlugin {
 	
 //	private Timer testTimer;
+	private TimerCommands com;
 	
 	@Override
 	public void onEnable() {
+		com = new TimerCommands(this);
+		getCommand("timer").setExecutor(com);
+		getCommand("timer").setTabCompleter(new TimerCompleter(com));
 //		TimeRunnable done = new TimeRunnable() {
 //			public void run(Timer timer) {
 //				Bukkit.getConsoleSender().sendMessage("Timer Done");
