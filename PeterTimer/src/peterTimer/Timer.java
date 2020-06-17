@@ -127,13 +127,10 @@ public class Timer {
 		bar = Bukkit.createBossBar(name, BarColor.WHITE, BarStyle.SOLID);
 		stop();
 		timeRemaning = totalTime;
-		int s = timeRemaning/20;
-		int m = s/60;
-		s -= m*60;
 		if(showTime) {
-			title = m + ":" + s;
+			title = format(timeRemaning);
 		} else {
-			title = name + " " + m + ":" + s;
+			title = name + " " + format(timeRemaning);
 		}
 		bar.setTitle(title);
 		bar.setProgress(1.0);
@@ -166,13 +163,10 @@ public class Timer {
 	 */
 	public void update(int dTime) {
 		timeRemaning -= dTime;
-		int s = timeRemaning/20;
-		int m = s/60;
-		s -= m*60;
 		if(showTime) {
-			title = m + ":" + s;
+			title = format(timeRemaning);
 		} else {
-			title = name + " " + m + ":" + s;
+			title = name + " " + format(timeRemaning);
 		}
 		if(autoChange) {
 			if(timeRemaning <= Math.min(200, totalTime/5)) {
@@ -246,5 +240,20 @@ public class Timer {
 	 */
 	public void setStyle(BarStyle style) {
 		bar.setStyle(style);
+	}
+	
+	private String format(int ticks) {
+		int s = timeRemaning/20;
+		int m = s/60;
+		s -= m*60;
+		String ss = s +"";
+		String sm = s +"";
+		if(ss.length()==1) {
+			ss = "0" + ss;
+		}
+		if(sm.length()==1) {
+			sm = "0" + ss;
+		}
+		return sm + ":" + ss;
 	}
 }
