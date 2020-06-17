@@ -16,14 +16,15 @@ public class Timer {
 	private int timeRemaning;
 	private String title;
 	private String name;
-	private Boolean showTime;
-	private Boolean running;
+	private boolean showTime;
+	private boolean running;
 	private Map<Integer,TimeRunnable> callbacks;
 	private int timeBetween = 1;
 	private BukkitScheduler scheduler;
 	private JavaPlugin plugin;
 	private static int timerN;
 	private BossBar bar;
+	private boolean autoChange;
 	
 	/**
 	 * Constructor for Timer
@@ -42,6 +43,7 @@ public class Timer {
 			totalTime = time;
 		}
 		scheduler = plugin.getServer().getScheduler();
+		autoChange = true;
 		reset();
 	}
 	/**
@@ -59,6 +61,7 @@ public class Timer {
 			totalTime = time;
 		}
 		scheduler = plugin.getServer().getScheduler();
+		autoChange = true;
 		reset();
 		timerN++;
 	}
@@ -76,6 +79,14 @@ public class Timer {
 	 */
 	public int getSecondsRemaning() {
 		return timeRemaning/20;
+	}
+	
+	/**
+	 * Sets whether or not to automatically change the color of the bar
+	 * @param change - Whether or not to automatically change the color of the bar
+	 */
+	public void setAutoChange(boolean change) {
+		autoChange = change;
 	}
 	
 	/**
@@ -130,10 +141,12 @@ public class Timer {
 			s -= m*60;
 			title = m + ":" + s;
 		}
-		if(timeRemaning <= Math.min(200, totalTime/5)) {
-				bar.setColor(BarColor.RED);
-		} else if(timeRemaning <= totalTime/2) {
-			bar.setColor(BarColor.YELLOW);
+		if(autoChange) {
+			if(timeRemaning <= Math.min(200, totalTime/5)) {
+					bar.setColor(BarColor.RED);
+			} else if(timeRemaning <= totalTime/2) {
+				bar.setColor(BarColor.YELLOW);
+			}
 		}
 		bar.setTitle(title);
 		bar.setProgress((double)timeRemaning/(double)totalTime);
@@ -156,5 +169,49 @@ public class Timer {
 				 }, timeBetween);
 			}
 		}
+	}
+	
+	/**
+	 * Sets the time remaining, if the timer is stopped
+	 * @param t - new time remaining
+	 * @return completed
+	 */
+	public boolean setTime(int t) {
+		if(!running) {
+			timeRemaning = t;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Sets the max time, if the timer is stopped
+	 * @param t - new max time
+	 * @return completed
+	 */
+	public boolean setMaxTime(int t) {
+		if(!running) {
+			totalTime = t;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Sets the color of the boss bar
+	 * @param color - new color
+	 */
+	public void setColor(BarColor color) {
+		bar.setColor(color);
+	}
+	
+	/**
+	 * Sets the style of the boss bar
+	 * @param style - new style
+	 */
+	public void setStyle(BarStyle style) {
+		bar.setStyle(style);
 	}
 }
