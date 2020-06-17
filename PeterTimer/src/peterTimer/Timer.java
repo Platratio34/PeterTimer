@@ -20,6 +20,14 @@ public class Timer {
 	private JavaPlugin plugin;
 	private static int timerN;
 	
+	/**
+	 * Constructor for Timer
+	 * @param time - Starting time
+	 * @param name - Name of the Timer
+	 * @param callbacks - Map of ticks remaining to callbacks
+	 * @param showTime - Whether or not to show the time as the bossbar title
+	 * @param plugin - The Plugin making the timer
+	 */
 	public Timer(int time, String name, Map<Integer,TimeRunnable> callbacks, Boolean showTime, JavaPlugin plugin) {
 		this.showTime = showTime;
 		this.name = name;
@@ -31,8 +39,14 @@ public class Timer {
 		scheduler = plugin.getServer().getScheduler();
 		reset();
 	}
-	public Timer(int time, Map<Integer,TimeRunnable> callbacks, Boolean showTime, JavaPlugin plugin) {
-		this.showTime = showTime;
+	/**
+	 * Constructor for Timer
+	 * @param time - Starting time
+	 * @param callbacks - Map of ticks remaining to callbacks
+	 * @param plugin - The Plugin making the timer
+	 */
+	public Timer(int time, Map<Integer,TimeRunnable> callbacks, JavaPlugin plugin) {
+		showTime = true;
 		this.name = "default-" + timerN;
 		this.callbacks = callbacks;
 		this.plugin = plugin;
@@ -44,17 +58,29 @@ public class Timer {
 		timerN++;
 	}
 	
+	/**
+	 * Return the time remaining in ticks
+	 * @return seconds ticks
+	 */
 	public int getTicksRemaning() {
 		return timeRemaning;
 	}
+	/**
+	 * Return the time remaining in seconds
+	 * @return seconds reaming (rounding down)
+	 */
 	public int getSecondsRemaning() {
 		return timeRemaning/20;
 	}
 	
+	/**
+	 * Resets the Timer
+	 * -Sets time remaing to max time
+	 * -resets bossbar title to name or time;
+	 */
 	public void reset() {
 		stop();
 		timeRemaning = totalTime;
-		running = true;
 		if(showTime) {
 			int s = timeRemaning/20;
 			int m = s/60;
@@ -65,14 +91,24 @@ public class Timer {
 		}
 	}
 	
+	/**
+	 * Starts the timer
+	 */
 	public void start() {
 		running = true;
 		update(0);
 	}
+	/**
+	 * Stops the timer
+	 */
 	public void stop() {
 		running = false;
 	}
 	
+	/**
+	 * Updates the timer
+	 * @param dTime - number of ticks since last update
+	 */
 	public void update(int dTime) {
 		timeRemaning -= dTime;
 		if(showTime) {
