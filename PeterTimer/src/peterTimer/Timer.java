@@ -52,8 +52,29 @@ public class Timer {
 	 * @param callbacks - Map of ticks remaining to callbacks
 	 * @param plugin - The Plugin making the timer
 	 */
+	@Deprecated
 	public Timer(int time, Map<Integer,TimeRunnable> callbacks, JavaPlugin plugin) {
 		showTime = true;
+		this.name = "default-" + timerN;
+		this.callbacks = callbacks;
+		this.plugin = plugin;
+		if(time > 1) {
+			totalTime = time;
+		}
+		scheduler = plugin.getServer().getScheduler();
+		autoChange = true;
+		reset();
+		timerN++;
+	}
+	/**
+	 * Constructor for Timer
+	 * @param time - Starting time
+	 * @param callbacks - Map of ticks remaining to callbacks
+	 * @param showTime - Whether or not to show the time as the bossbar title
+	 * @param plugin - The Plugin making the timer
+	 */
+	public Timer(int time, Map<Integer,TimeRunnable> callbacks, Boolean showTime, JavaPlugin plugin) {
+		this.showTime = showTime;
 		this.name = "default-" + timerN;
 		this.callbacks = callbacks;
 		this.plugin = plugin;
