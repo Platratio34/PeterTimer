@@ -43,6 +43,9 @@ public class TimerCompleter implements TabCompleter {
 				l.add(in.get(i));
 			}
 		}
+		if(l.size()==0) {
+			return null;
+		}
 		return l;
 	}
 
