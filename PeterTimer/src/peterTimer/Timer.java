@@ -1,9 +1,13 @@
 package peterTimer;
 
 import org.bukkit.scheduler.BukkitScheduler;
-
 import java.util.Map;
 
+import org.bukkit.Bukkit;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Timer {
@@ -19,6 +23,7 @@ public class Timer {
 	private BukkitScheduler scheduler;
 	private JavaPlugin plugin;
 	private static int timerN;
+	private BossBar bar;
 	
 	/**
 	 * Constructor for Timer
@@ -79,6 +84,7 @@ public class Timer {
 	 * -resets bossbar title to name or time;
 	 */
 	public void reset() {
+		bar = Bukkit.createBossBar(name, BarColor.WHITE, BarStyle.SOLID);
 		stop();
 		timeRemaning = totalTime;
 		if(showTime) {
@@ -89,6 +95,8 @@ public class Timer {
 		} else {
 			title = name;
 		}
+		bar.setTitle(title);
+		bar.setProgress(1.0);
 	}
 	
 	/**
@@ -96,6 +104,10 @@ public class Timer {
 	 */
 	public void start() {
 		running = true;
+		for(Player player : Bukkit.getServer().getOnlinePlayers()) {
+			bar.addPlayer(player);
+		}
+		bar.setVisible(true);
 		update(0);
 	}
 	/**
@@ -103,6 +115,7 @@ public class Timer {
 	 */
 	public void stop() {
 		running = false;
+		bar.setVisible(false);
 	}
 	
 	/**
@@ -117,7 +130,14 @@ public class Timer {
 			s -= m*60;
 			title = m + ":" + s;
 		}
-		//update boss bar
+		if(timeRemaning <= Math.min(200, totalTime/5)) {
+				bar.setColor(BarColor.RED);
+		} else if(timeRemaning <= totalTime/2) {
+			bar.setColor(BarColor.YELLOW);
+		}
+		bar.setTitle(title);
+		bar.setProgress((double)timeRemaning/(double)totalTime);
+		//Bukkit.getConsoleSender().sendMessage("Timer: " + title + ", " + (double)timeRemaning/(double)totalTime);
 		if(timeRemaning <= 0) {
 			running = false;
 			callbacks.get(0).run(this);

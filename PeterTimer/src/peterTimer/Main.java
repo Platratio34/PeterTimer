@@ -14,12 +14,13 @@ public class Main extends JavaPlugin {
 //		TimeRunnable done = new TimeRunnable() {
 //			public void run(Timer timer) {
 //				Bukkit.getConsoleSender().sendMessage("Timer Done");
+//				testTimer.stop();
 //			}
 //		};
 //		HashMap<Integer,TimeRunnable> map = new HashMap<Integer,TimeRunnable>();
 //		map.put(0,done);
 //		Bukkit.getConsoleSender().sendMessage("PeterTimer Started");
-//		testTimer = new Timer(5*20, "testTimer", map, true, this);
+//		testTimer = new Timer(30*20, "testTimer", map, true, this);
 //		testTimer.start();
 	}
 	
