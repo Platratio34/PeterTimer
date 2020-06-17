@@ -39,7 +39,7 @@ public class TimerCompleter implements TabCompleter {
 	private List<String> fix(List<String> in, String str) {
 		List<String> l = new ArrayList<String>();
 		for(int i = 0; i < in.size(); i++) {
-			if(in.get(i).substring(0,str.length()).equals(str)) {
+			if(in.get(i).substring(0,Math.min(str.length(), in.get(i).length())).equals(str)) {
 				l.add(in.get(i));
 			}
 		}
