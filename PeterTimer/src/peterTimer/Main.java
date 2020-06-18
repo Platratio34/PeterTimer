@@ -20,12 +20,14 @@ public class Main extends JavaPlugin {
 //			public void run(Timer timer) {
 //				Bukkit.getConsoleSender().sendMessage("Timer Done");
 //				testTimer.stop();
+//				testTimer.removeAllPlayer();
 //			}
 //		};
 //		HashMap<Integer,TimeRunnable> map = new HashMap<Integer,TimeRunnable>();
 //		map.put(0,done);
 //		Bukkit.getConsoleSender().sendMessage("PeterTimer Started");
 //		testTimer = new Timer(30*20, "testTimer", map, true, this);
+//		testTimer.addAllPlayers();
 //		testTimer.start();
 	}
 	
