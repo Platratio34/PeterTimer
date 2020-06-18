@@ -1,6 +1,8 @@
 package peterTimer;
 
 import org.bukkit.scheduler.BukkitScheduler;
+
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
@@ -142,13 +144,63 @@ public class Timer {
 	public void start() {
 		if(running = false) {
 			running = true;
-			for(Player player : Bukkit.getServer().getOnlinePlayers()) {
-				bar.addPlayer(player);
-			}
 			bar.setVisible(true);
 			update(0);
 		}
 	}
+	/**
+	 * Adds all players to the Timer
+	 */
+	public void addAllPlayers() {
+		for(Player player : Bukkit.getServer().getOnlinePlayers()) {
+			bar.addPlayer(player);
+		}
+	}
+	
+	/**
+	 * Adds a player to the timer
+	 * @param p - Player to add
+	 */
+	public void addPlayer(Player p) {
+		bar.addPlayer(p);
+	}
+	/**
+	 * Adds a list of players to the timer
+	 * @param p - List of player to add
+	 */
+	public void addPlayer(List<Player> p) {
+		for(Player player : p) {
+			bar.addPlayer(player);
+		}
+	}
+	
+	/**
+	 * Removes all players from the timer
+	 */
+	public void removeAllPlayers() {
+		List<Player> p = bar.getPlayers();
+		for(Player player : p) {
+			bar.removePlayer(player);
+		}
+	}
+	
+	/**
+	 * Removes a player from the timer
+	 * @param p - Player to remove
+	 */
+	public void removePlayer(Player p) {
+		bar.removePlayer(p);
+	}
+	/**
+	 * Removes a list of players from the timer
+	 * @param p - List of players to remove
+	 */
+	public void removePlayer(List<Player> p) {
+		for(Player player : p) {
+			bar.removePlayer(player);
+		}
+	}
+	
 	/**
 	 * Stops the timer
 	 */

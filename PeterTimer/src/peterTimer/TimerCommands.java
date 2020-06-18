@@ -28,6 +28,7 @@ public class TimerCommands implements CommandExecutor {
 			public void run(Timer timer) {
 				Bukkit.broadcastMessage(ChatColor.GREEN + "Timer " + timer.getName() + " done");
 				timer.stop();
+				timer.removeAllPlayers();
 			}
 			
 		});
@@ -62,11 +63,13 @@ public class TimerCommands implements CommandExecutor {
 			Timer t = exists(args[1]);
 			if(t != null) {
 				if(args[0].equals("start")) {
+					t.addAllPlayers();
 					t.start();
 					sender.sendMessage("Timer " + args[1] + " started");
 					return true;
 				} else if(args[0].equals("stop")) {
 					t.stop();
+					t.removeAllPlayers();
 					sender.sendMessage("Timer " + args[1] + " stoped");
 					return true;
 				} else if(args[0].equals("reset")) {
