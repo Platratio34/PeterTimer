@@ -124,7 +124,7 @@ public class Timer {
 	 * -resets bossbar title to name or time;
 	 */
 	public void reset() {
-		bar = Bukkit.createBossBar(name, BarColor.WHITE, BarStyle.SOLID);
+		bar = Bukkit.createBossBar(name, BarColor.GREEN, BarStyle.SOLID);
 		stop();
 		timeRemaning = totalTime;
 		if(showTime) {
