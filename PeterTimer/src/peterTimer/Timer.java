@@ -156,6 +156,7 @@ public class Timer {
 			update(0);
 		}
 	}
+	
 	/**
 	 * Adds all players to the Timer
 	 */
