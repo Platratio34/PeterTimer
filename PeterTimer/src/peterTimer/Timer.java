@@ -142,7 +142,7 @@ public class Timer {
 	 * Starts the timer
 	 */
 	public void start() {
-		if(running = false) {
+		if(running == false) {
 			running = true;
 			bar.setVisible(true);
 			update(0);
