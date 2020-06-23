@@ -18,7 +18,7 @@ public class Timer {
 	private int timeRemaning;
 	private String title;
 	private String name;
-	private boolean showTime;
+	private boolean showOnlyTime;
 	private boolean running;
 	private Map<Integer,TimeRunnable> callbacks;
 	private int timeBetween = 1;
@@ -36,8 +36,8 @@ public class Timer {
 	 * @param showTime - Whether or not to show the time as the bossbar title
 	 * @param plugin - The Plugin making the timer
 	 */
-	public Timer(int time, String name, Map<Integer,TimeRunnable> callbacks, Boolean showTime, JavaPlugin plugin) {
-		this.showTime = showTime;
+	public Timer(int time, String name, Map<Integer,TimeRunnable> callbacks, Boolean showOnlyTime, JavaPlugin plugin) {
+		this.showOnlyTime = showOnlyTime;
 		this.name = name;
 		this.callbacks = callbacks;
 		this.plugin = plugin;
@@ -56,7 +56,7 @@ public class Timer {
 	 */
 	@Deprecated
 	public Timer(int time, Map<Integer,TimeRunnable> callbacks, JavaPlugin plugin) {
-		showTime = true;
+		showOnlyTime = true;
 		this.name = "default-" + timerN;
 		this.callbacks = callbacks;
 		this.plugin = plugin;
@@ -75,8 +75,8 @@ public class Timer {
 	 * @param showTime - Whether or not to show the time as the bossbar title
 	 * @param plugin - The Plugin making the timer
 	 */
-	public Timer(int time, Map<Integer,TimeRunnable> callbacks, Boolean showTime, JavaPlugin plugin) {
-		this.showTime = showTime;
+	public Timer(int time, Map<Integer,TimeRunnable> callbacks, Boolean showOnlyTime, JavaPlugin plugin) {
+		this.showOnlyTime = showOnlyTime;
 		this.name = "default-" + timerN;
 		this.callbacks = callbacks;
 		this.plugin = plugin;
@@ -113,6 +113,14 @@ public class Timer {
 	}
 	
 	/**
+	 * Sets the name of the timer
+	 * @param name - new name for the timer
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	/**
 	 * Sets whether or not to automatically change the color of the bar
 	 * @param change - Whether or not to automatically change the color of the bar
 	 */
@@ -129,7 +137,7 @@ public class Timer {
 		bar = Bukkit.createBossBar(name, BarColor.GREEN, BarStyle.SOLID);
 		stop();
 		timeRemaning = totalTime;
-		if(showTime) {
+		if(showOnlyTime) {
 			title = format(timeRemaning);
 		} else {
 			title = name + " " + format(timeRemaning);
@@ -215,7 +223,7 @@ public class Timer {
 	 */
 	public void update(int dTime) {
 		timeRemaning -= dTime;
-		if(showTime) {
+		if(showOnlyTime) {
 			title = format(timeRemaning);
 		} else {
 			title = name + " " + format(timeRemaning);
@@ -299,12 +307,12 @@ public class Timer {
 		int m = s/60;
 		s -= m*60;
 		String ss = s +"";
-		String sm = s +"";
+		String sm = m +"";
 		if(ss.length()==1) {
 			ss = "0" + ss;
 		}
 		if(sm.length()==1) {
-			sm = "0" + ss;
+			sm = "0" + sm;
 		}
 		return sm + ":" + ss;
 	}
