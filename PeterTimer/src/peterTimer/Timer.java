@@ -33,7 +33,7 @@ public class Timer {
 	 * @param time - Starting time
 	 * @param name - Name of the Timer
 	 * @param callbacks - Map of ticks remaining to callbacks
-	 * @param showTime - Whether or not to show the time as the bossbar title
+	 * @param showOnlyTime - Whether or not to show the time as the bossbar title
 	 * @param plugin - The Plugin making the timer
 	 */
 	public Timer(int time, String name, Map<Integer,TimeRunnable> callbacks, Boolean showOnlyTime, JavaPlugin plugin) {
@@ -76,7 +76,7 @@ public class Timer {
 	 * Constructor for Timer
 	 * @param time - Starting time
 	 * @param callbacks - Map of ticks remaining to callbacks
-	 * @param showTime - Whether or not to show the time as the bossbar title
+	 * @param showOnlyTime - Whether or not to show the time as the bossbar title
 	 * @param plugin - The Plugin making the timer
 	 */
 	public Timer(int time, Map<Integer,TimeRunnable> callbacks, Boolean showOnlyTime, JavaPlugin plugin) {
