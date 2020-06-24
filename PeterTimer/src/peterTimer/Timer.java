@@ -2,6 +2,7 @@ package peterTimer;
 
 import org.bukkit.scheduler.BukkitScheduler;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +33,7 @@ public class Timer {
 	 * @param time - Starting time
 	 * @param name - Name of the Timer
 	 * @param callbacks - Map of ticks remaining to callbacks
-	 * @param showTime - Whether or not to show the time as the bossbar title
+	 * @param showOnlyTime - Whether or not to show the time as the bossbar title
 	 * @param plugin - The Plugin making the timer
 	 */
 	public Timer(int time, String name, Map<Integer,TimeRunnable> callbacks, Boolean showOnlyTime, JavaPlugin plugin) {
@@ -45,6 +46,7 @@ public class Timer {
 		}
 		scheduler = plugin.getServer().getScheduler();
 		autoChange = true;
+		bars = new HashMap<String, DisplayBar>();
 		bars.put("main", new DisplayBar(name, BarColor.GREEN, BarStyle.SOLID));
 		reset();
 	}
@@ -65,6 +67,7 @@ public class Timer {
 		}
 		scheduler = plugin.getServer().getScheduler();
 		autoChange = true;
+		bars = new HashMap<String, DisplayBar>();
 		bars.put("main", new DisplayBar(name, BarColor.GREEN, BarStyle.SOLID));
 		reset();
 		timerN++;
@@ -73,7 +76,7 @@ public class Timer {
 	 * Constructor for Timer
 	 * @param time - Starting time
 	 * @param callbacks - Map of ticks remaining to callbacks
-	 * @param showTime - Whether or not to show the time as the bossbar title
+	 * @param showOnlyTime - Whether or not to show the time as the bossbar title
 	 * @param plugin - The Plugin making the timer
 	 */
 	public Timer(int time, Map<Integer,TimeRunnable> callbacks, Boolean showOnlyTime, JavaPlugin plugin) {
@@ -86,6 +89,7 @@ public class Timer {
 		}
 		scheduler = plugin.getServer().getScheduler();
 		autoChange = true;
+		bars = new HashMap<String, DisplayBar>();
 		bars.put("main", new DisplayBar(name, BarColor.GREEN, BarStyle.SOLID));
 		reset();
 		timerN++;
@@ -98,9 +102,10 @@ public class Timer {
 	public int getTicksRemaning() {
 		return timeRemaning;
 	}
+	
 	/**
 	 * Return the time remaining in seconds
-	 * @return seconds reaming (rounding down)
+	 * @return seconds reaming(rounding down)
 	 */
 	public int getSecondsRemaning() {
 		return timeRemaning/20;
@@ -304,9 +309,13 @@ public class Timer {
 		}
 		if(autoChange) {
 			if(timeRemaning <= Math.min(200, totalTime/5)) {
-					bars.get("main").setColor(BarColor.RED);
+				for(DisplayBar b : bars.values()) {
+					b.setColor(BarColor.RED);
+				}
 			} else if(timeRemaning <= totalTime/2) {
-				bars.get("main").setColor(BarColor.YELLOW);
+				for(DisplayBar b : bars.values()) {
+					b.setColor(BarColor.YELLOW);
+				}
 			}
 		}
 		for(DisplayBar b : bars.values()) {
