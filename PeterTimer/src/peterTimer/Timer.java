@@ -102,9 +102,10 @@ public class Timer {
 	public int getTicksRemaning() {
 		return timeRemaning;
 	}
+	
 	/**
 	 * Return the time remaining in seconds
-	 * @return seconds reaming (rounding down)
+	 * @return seconds reaming(rounding down)
 	 */
 	public int getSecondsRemaning() {
 		return timeRemaning/20;
@@ -308,9 +309,13 @@ public class Timer {
 		}
 		if(autoChange) {
 			if(timeRemaning <= Math.min(200, totalTime/5)) {
-					bars.get("main").setColor(BarColor.RED);
+				for(DisplayBar b : bars.values()) {
+					b.setColor(BarColor.RED);
+				}
 			} else if(timeRemaning <= totalTime/2) {
-				bars.get("main").setColor(BarColor.YELLOW);
+				for(DisplayBar b : bars.values()) {
+					b.setColor(BarColor.YELLOW);
+				}
 			}
 		}
 		for(DisplayBar b : bars.values()) {

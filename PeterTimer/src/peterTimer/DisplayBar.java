@@ -18,7 +18,7 @@ public class DisplayBar {
 	}
 	
 	public void update(String time, double progress) {
-		bar.setTitle(name + time);
+		bar.setTitle(name + " " + time);
 		bar.setProgress(progress);
 	}
 	
