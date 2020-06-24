@@ -8,7 +8,6 @@ import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
-import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,7 +24,7 @@ public class Timer {
 	private BukkitScheduler scheduler;
 	private JavaPlugin plugin;
 	private static int timerN;
-	private BossBar bar;
+	private Map<String,DisplayBar> bars;
 	private boolean autoChange;
 	
 	/**
@@ -46,6 +45,7 @@ public class Timer {
 		}
 		scheduler = plugin.getServer().getScheduler();
 		autoChange = true;
+		bars.put("main", new DisplayBar(name, BarColor.GREEN, BarStyle.SOLID));
 		reset();
 	}
 	/**
@@ -65,6 +65,7 @@ public class Timer {
 		}
 		scheduler = plugin.getServer().getScheduler();
 		autoChange = true;
+		bars.put("main", new DisplayBar(name, BarColor.GREEN, BarStyle.SOLID));
 		reset();
 		timerN++;
 	}
@@ -85,6 +86,7 @@ public class Timer {
 		}
 		scheduler = plugin.getServer().getScheduler();
 		autoChange = true;
+		bars.put("main", new DisplayBar(name, BarColor.GREEN, BarStyle.SOLID));
 		reset();
 		timerN++;
 	}
@@ -118,6 +120,16 @@ public class Timer {
 	 */
 	public void setName(String name) {
 		this.name = name;
+		bars.get("main").setName(name);
+	}
+	
+	/**
+	 * Sets the title of one of the bars
+	 * @param title - the new title
+	 * @param bar - the bar to change
+	 */
+	public void setTitle(String title, String bar) {
+		bars.get(bar).setName(title);
 	}
 	
 	/**
@@ -134,7 +146,6 @@ public class Timer {
 	 * -resets bossbar title to name or time;
 	 */
 	public void reset() {
-		bar = Bukkit.createBossBar(name, BarColor.GREEN, BarStyle.SOLID);
 		stop();
 		timeRemaning = totalTime;
 		if(showOnlyTime) {
@@ -142,8 +153,11 @@ public class Timer {
 		} else {
 			title = name + " " + format(timeRemaning);
 		}
-		bar.setTitle(title);
-		bar.setProgress(1.0);
+		bars.get("main").update(format(timeRemaning), 1.0);
+		for(DisplayBar b : bars.values()) {
+			b.update(format(timeRemaning), 1.0);
+		}
+		
 	}
 	
 	/**
@@ -152,44 +166,83 @@ public class Timer {
 	public void start() {
 		if(running == false) {
 			running = true;
-			bar.setVisible(true);
+			for(DisplayBar b : bars.values()) {
+				b.setVisible(true);
+			}
 			update(0);
 		}
 	}
 	
 	/**
-	 * Adds all players to the Timer
+	 * Adds all players to the main bar
 	 */
 	public void addAllPlayers() {
 		for(Player player : Bukkit.getServer().getOnlinePlayers()) {
-			bar.addPlayer(player);
+			bars.get("main").addPlayer(player);
+		}
+	}
+	/**
+	 * Adds all players to a bar
+	 * @param bar - Bar to add them to
+	 */
+	public void addAllPlayers(String bar) {
+		for(Player player : Bukkit.getServer().getOnlinePlayers()) {
+			bars.get(bar).addPlayer(player);
 		}
 	}
 	
 	/**
-	 * Adds a player to the timer
+	 * Adds a player to the main bar
 	 * @param p - Player to add
 	 */
 	public void addPlayer(Player p) {
-		bar.addPlayer(p);
+		bars.get("main").addPlayer(p);
 	}
 	/**
-	 * Adds a list of players to the timer
+	 * Adds a player to a bar
+	 * @param p - Player to add
+	 * @param bar - Bar to add them to
+	 */
+	public void addPlayer(Player p, String bar) {
+		bars.get(bar).addPlayer(p);
+	}
+	/**
+	 * Adds a list of players to the main bar
 	 * @param p - List of player to add
 	 */
 	public void addPlayer(List<Player> p) {
 		for(Player player : p) {
-			bar.addPlayer(player);
+			bars.get("main").addPlayer(player);
+		}
+	}
+	/**
+	 * Adds a list of players to a bar
+	 * @param p - List of players to add
+	 * @param bar - Bar to add them to
+	 */
+	public void addPlayer(List<Player> p, String bar) {
+		for(Player player : p) {
+			bars.get(bar).addPlayer(player);
 		}
 	}
 	
 	/**
-	 * Removes all players from the timer
+	 * Removes all players from the main bar
 	 */
 	public void removeAllPlayers() {
-		List<Player> p = bar.getPlayers();
+		List<Player> p = bars.get("main").getPlayers();
 		for(Player player : p) {
-			bar.removePlayer(player);
+			bars.get("main").removePlayer(player);
+		}
+	}
+	/**
+	 * Removes all players from a bar
+	 * @param bar - Bar to remove them from
+	 */
+	public void removeAllPlayers(String  bar) {
+		List<Player> p = bars.get(bar).getPlayers();
+		for(Player player : p) {
+			bars.get(bar).removePlayer(player);
 		}
 	}
 	
@@ -198,7 +251,15 @@ public class Timer {
 	 * @param p - Player to remove
 	 */
 	public void removePlayer(Player p) {
-		bar.removePlayer(p);
+		bars.get("main").removePlayer(p);
+	}
+	/**
+	 * Removes a player from the timer
+	 * @param p - Player to remove
+	 * @param bar - Bar to remove them from
+	 */
+	public void removePlayer(Player p, String bar) {
+		bars.get(bar).removePlayer(p);
 	}
 	/**
 	 * Removes a list of players from the timer
@@ -206,7 +267,17 @@ public class Timer {
 	 */
 	public void removePlayer(List<Player> p) {
 		for(Player player : p) {
-			bar.removePlayer(player);
+			bars.get("main").removePlayer(player);
+		}
+	}
+	/**
+	 * Removes a list of players from the timer
+	 * @param p - List of players to remove
+	 * @param bar - Bar to remove them from
+	 */
+	public void removePlayer(List<Player> p, String bar) {
+		for(Player player : p) {
+			bars.get(bar).removePlayer(player);
 		}
 	}
 	
@@ -215,7 +286,9 @@ public class Timer {
 	 */
 	public void stop() {
 		running = false;
-		bar.setVisible(false);
+		for(DisplayBar b : bars.values()) {
+			b.setVisible(false);
+		}
 	}
 	
 	/**
@@ -231,13 +304,14 @@ public class Timer {
 		}
 		if(autoChange) {
 			if(timeRemaning <= Math.min(200, totalTime/5)) {
-					bar.setColor(BarColor.RED);
+					bars.get("main").setColor(BarColor.RED);
 			} else if(timeRemaning <= totalTime/2) {
-				bar.setColor(BarColor.YELLOW);
+				bars.get("main").setColor(BarColor.YELLOW);
 			}
 		}
-		bar.setTitle(title);
-		bar.setProgress((double)timeRemaning/(double)totalTime);
+		for(DisplayBar b : bars.values()) {
+			b.update(format(timeRemaning), (double)timeRemaning/(double)totalTime);
+		}
 		//Bukkit.getConsoleSender().sendMessage("Timer: " + title + ", " + (double)timeRemaning/(double)totalTime);
 		if(timeRemaning <= 0) {
 			running = false;
@@ -288,11 +362,19 @@ public class Timer {
 	}
 	
 	/**
-	 * Sets the color of the boss bar
+	 * Sets the color of the main bar
 	 * @param color - new color
 	 */
 	public void setColor(BarColor color) {
-		bar.setColor(color);
+		bars.get("main").setColor(color);
+	}
+	/**
+	 * Sets the color of a bar
+	 * @param color - new color
+	 * @param bar - Bar to change
+	 */
+	public void setColor(BarColor color, String bar) {
+		bars.get(bar).setColor(color);
 	}
 	
 	/**
@@ -300,9 +382,40 @@ public class Timer {
 	 * @param style - new style
 	 */
 	public void setStyle(BarStyle style) {
-		bar.setStyle(style);
+		bars.get("main").setStyle(style);
+	}
+	/**
+	 * Sets the style of the boss bar
+	 * @param style - new style
+	 * @param bar - Bar to change
+	 */
+	public void setStyle(BarStyle style, String bar) {
+		bars.get(bar).setStyle(style);
 	}
 	
+	/**
+	 * Adds a bar to the timer
+	 * @param key - The key for the bar, used later to access it
+	 * @param title - the title of the bar
+	 */
+	public void addBar(String key, String title) {
+		bars.put(key, new DisplayBar(title, BarColor.GREEN, BarStyle.SOLID));
+	}
+	
+	/**
+	 * Removes a bar from the timer
+	 * @param key - The bar to remove
+	 */
+	public void removeBar(String key) {
+		bars.get(key).remove();
+		bars.remove(key);
+	}
+	
+	/**
+	 * Returns a formated string expressing the time in seconds and minutes
+	 * @param ticks - amount of time in ticks
+	 * @return formated string
+	 */
 	private String format(int ticks) {
 		int s = timeRemaning/20;
 		int m = s/60;
