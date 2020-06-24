@@ -2,6 +2,7 @@ package peterTimer;
 
 import org.bukkit.scheduler.BukkitScheduler;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +46,7 @@ public class Timer {
 		}
 		scheduler = plugin.getServer().getScheduler();
 		autoChange = true;
+		bars = new HashMap<String, DisplayBar>();
 		bars.put("main", new DisplayBar(name, BarColor.GREEN, BarStyle.SOLID));
 		reset();
 	}
@@ -65,6 +67,7 @@ public class Timer {
 		}
 		scheduler = plugin.getServer().getScheduler();
 		autoChange = true;
+		bars = new HashMap<String, DisplayBar>();
 		bars.put("main", new DisplayBar(name, BarColor.GREEN, BarStyle.SOLID));
 		reset();
 		timerN++;
@@ -86,6 +89,7 @@ public class Timer {
 		}
 		scheduler = plugin.getServer().getScheduler();
 		autoChange = true;
+		bars = new HashMap<String, DisplayBar>();
 		bars.put("main", new DisplayBar(name, BarColor.GREEN, BarStyle.SOLID));
 		reset();
 		timerN++;
