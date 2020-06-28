@@ -303,6 +303,25 @@ public class Timer {
 	 */
 	public void update(int dTime) {
 		timeRemaning -= dTime;
+		if(timeRemaning <= 0) {
+			running = false;
+			callbacks.get(0).run(this);
+		} else {
+			if(running) {
+				if(callbacks.get(timeRemaning) != null) {
+					callbacks.get(timeRemaning).run(this);
+				}
+				int next = runTill(timeBetween, timeRemaning);
+				scheduler.scheduleSyncDelayedTask(plugin, new Runnable() {
+					 
+					 @Override
+					 public void run() {
+	                	 update(next);
+					 }
+					 
+				 }, next);
+			}
+		}
 		if(showOnlyTime) {
 			title = format(timeRemaning);
 		} else {
@@ -323,25 +342,7 @@ public class Timer {
 			b.update(format(timeRemaning), (double)timeRemaning/(double)totalTime);
 		}
 		//Bukkit.getConsoleSender().sendMessage("Timer: " + title + ", " + (double)timeRemaning/(double)totalTime);
-		if(timeRemaning <= 0) {
-			running = false;
-			callbacks.get(0).run(this);
-		} else {
-			if(running) {
-				if(callbacks.get(timeRemaning) != null) {
-					callbacks.get(timeRemaning).run(this);
-				}
-				int next = runTill(timeBetween, timeRemaning);
-				scheduler.scheduleSyncDelayedTask(plugin, new Runnable() {
-					 
-					 @Override
-					 public void run() {
-	                	 update(next);
-					 }
-					 
-				 }, next);
-			}
-		}
+		
 	}
 	
 	/**
