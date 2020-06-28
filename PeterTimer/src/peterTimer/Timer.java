@@ -21,7 +21,7 @@ public class Timer {
 	private boolean showOnlyTime;
 	private boolean running;
 	private Map<Integer,TimeRunnable> callbacks;
-	private int timeBetween = 1;
+	private int timeBetween;
 	private BukkitScheduler scheduler;
 	private JavaPlugin plugin;
 	private static int timerN;
@@ -152,6 +152,7 @@ public class Timer {
 	 */
 	public void reset() {
 		stop();
+		timeBetween = Math.min(totalTime / 400, 1);
 		timeRemaning = totalTime;
 		if(showOnlyTime) {
 			title = format(timeRemaning);
@@ -330,14 +331,15 @@ public class Timer {
 				if(callbacks.get(timeRemaning) != null) {
 					callbacks.get(timeRemaning).run(this);
 				}
+				int next = runTill(timeBetween, timeRemaning);
 				scheduler.scheduleSyncDelayedTask(plugin, new Runnable() {
 					 
 					 @Override
 					 public void run() {
-	                	 update(timeBetween);
+	                	 update(next);
 					 }
 					 
-				 }, timeBetween);
+				 }, next);
 			}
 		}
 	}
@@ -438,5 +440,15 @@ public class Timer {
 			sm = "0" + sm;
 		}
 		return sm + ":" + ss;
+	}
+	
+	private int runTill(int max, int current) {
+		int out = max;
+		for(int i = 1; i < max; i++) {
+			if(callbacks.get(current - i) != null) {
+				out = i;
+			}
+		}
+		return out;
 	}
 }
