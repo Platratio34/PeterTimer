@@ -21,7 +21,7 @@ public class Timer {
 	private boolean showOnlyTime;
 	private boolean running;
 	private Map<Integer,TimeRunnable> callbacks;
-	private int timeBetween;
+	private int timeBetween = 1;
 	private BukkitScheduler scheduler;
 	private JavaPlugin plugin;
 	private static int timerN;
@@ -152,7 +152,6 @@ public class Timer {
 	 */
 	public void reset() {
 		stop();
-		timeBetween = Math.min(totalTime / 400, 1);
 		timeRemaning = totalTime;
 		if(showOnlyTime) {
 			title = format(timeRemaning);
@@ -303,25 +302,6 @@ public class Timer {
 	 */
 	public void update(int dTime) {
 		timeRemaning -= dTime;
-		if(timeRemaning <= 0) {
-			running = false;
-			callbacks.get(0).run(this);
-		} else {
-			if(running) {
-				if(callbacks.get(timeRemaning) != null) {
-					callbacks.get(timeRemaning).run(this);
-				}
-				int next = runTill(timeBetween, timeRemaning);
-				scheduler.scheduleSyncDelayedTask(plugin, new Runnable() {
-					 
-					 @Override
-					 public void run() {
-	                	 update(next);
-					 }
-					 
-				 }, next);
-			}
-		}
 		if(showOnlyTime) {
 			title = format(timeRemaning);
 		} else {
@@ -342,7 +322,24 @@ public class Timer {
 			b.update(format(timeRemaning), (double)timeRemaning/(double)totalTime);
 		}
 		//Bukkit.getConsoleSender().sendMessage("Timer: " + title + ", " + (double)timeRemaning/(double)totalTime);
-		
+		if(timeRemaning <= 0) {
+			running = false;
+			callbacks.get(0).run(this);
+		} else {
+			if(running) {
+				if(callbacks.get(timeRemaning) != null) {
+					callbacks.get(timeRemaning).run(this);
+				}
+				scheduler.scheduleSyncDelayedTask(plugin, new Runnable() {
+					 
+					 @Override
+					 public void run() {
+	                	 update(timeBetween);
+					 }
+					 
+				 }, timeBetween);
+			}
+		}
 	}
 	
 	/**
@@ -441,15 +438,5 @@ public class Timer {
 			sm = "0" + sm;
 		}
 		return sm + ":" + ss;
-	}
-	
-	private int runTill(int max, int current) {
-		int out = max;
-		for(int i = 1; i < max; i++) {
-			if(callbacks.get(current - i) != null) {
-				out = i;
-			}
-		}
-		return out;
 	}
 }
