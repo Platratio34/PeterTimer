@@ -16,7 +16,7 @@ public class Timer {
 	
 	private int totalTime;
 	private int timeRemaning;
-	private String title;
+	//private String title;
 	private String name;
 	private boolean showOnlyTime;
 	private boolean running;
@@ -155,12 +155,12 @@ public class Timer {
 		timeBetween = Math.max(Math.min(totalTime/180, 1), 20);
 		timeBetween = clamp(totalTime/180, 1, 20);
 		timeRemaning = totalTime;
-		if(showOnlyTime) {
+		/*if(showOnlyTime) {
 			title = format(timeRemaning);
 		} else {
 			title = name + " " + format(timeRemaning);
 		}
-		bars.get("main").update(format(timeRemaning), 1.0);
+		bars.get("main").update(format(timeRemaning), 1.0);*/
 		for(DisplayBar b : bars.values()) {
 			b.update(format(timeRemaning), 1.0);
 		}
@@ -323,11 +323,11 @@ public class Timer {
 				 }, next);
 			}
 		}
-		if(showOnlyTime) {
+		/*if(showOnlyTime) {
 			title = format(timeRemaning);
 		} else {
 			title = name + " " + format(timeRemaning);
-		}
+		}*/
 		if(autoChange) {
 			if(timeRemaning <= Math.min(200, totalTime/5)) {
 				for(DisplayBar b : bars.values()) {
