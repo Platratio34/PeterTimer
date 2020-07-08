@@ -152,7 +152,8 @@ public class Timer {
 	 */
 	public void reset() {
 		stop();
-		timeBetween = Math.min(totalTime / 400, 1);
+		timeBetween = Math.max(Math.min(totalTime/180, 1), 20);
+		timeBetween = clamp(totalTime/180, 1, 20);
 		timeRemaning = totalTime;
 		if(showOnlyTime) {
 			title = format(timeRemaning);
@@ -451,5 +452,9 @@ public class Timer {
 			}
 		}
 		return out;
+	}
+	
+	private int clamp(int i, int min, int max) {
+		return Math.min(Math.max(i,  min), max);
 	}
 }
