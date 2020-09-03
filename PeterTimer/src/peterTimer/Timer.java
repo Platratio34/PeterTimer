@@ -1,7 +1,5 @@
 package peterTimer;
 
-import org.bukkit.scheduler.BukkitScheduler;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +9,7 @@ import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
 public class Timer {
 	
