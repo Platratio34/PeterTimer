@@ -163,6 +163,7 @@ public class Timer {
 		bars.get("main").update(format(timeRemaning), 1.0);*/
 		for(DisplayBar b : bars.values()) {
 			b.update(format(timeRemaning), 1.0);
+			b.setColor(BarColor.GREEN);
 		}
 		
 	}

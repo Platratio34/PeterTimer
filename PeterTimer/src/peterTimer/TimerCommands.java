@@ -118,5 +118,11 @@ public class TimerCommands implements CommandExecutor {
 		}
 		return l;
 	}
+	
+	public void StopAll() {
+		for(int i = 0; i < timers.size(); i++) {
+			timers.get(i).stop();
+		}
+	}
 
 }
