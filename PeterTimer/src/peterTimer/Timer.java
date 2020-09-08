@@ -122,9 +122,18 @@ public class Timer {
 	 * Sets the name of the timer
 	 * @param name - new name for the timer
 	 */
+	@Deprecated
 	public void setName(String name) {
 		this.name = name;
 		bars.get("main").setName(name);
+	}
+	
+	/**
+	 * Sets the title of the main bar
+	 * @param title - the new title
+	 */
+	public void setTitle(String title) {
+		bars.get("main").setName(title);
 	}
 	
 	/**
@@ -133,7 +142,11 @@ public class Timer {
 	 * @param bar - the bar to change
 	 */
 	public void setTitle(String title, String bar) {
-		bars.get(bar).setName(title);
+		if(bars.containsKey(bar)) {
+			bars.get(bar).setName(title);
+		} else {
+			Bukkit.getConsoleSender().sendMessage("§eWARN: Peter Timer| func: setTitle; Invalid bar key: " + bar);
+		}
 	}
 	
 	/**
@@ -193,8 +206,12 @@ public class Timer {
 	 * @param bar - Bar to add them to
 	 */
 	public void addAllPlayers(String bar) {
-		for(Player player : Bukkit.getServer().getOnlinePlayers()) {
-			bars.get(bar).addPlayer(player);
+		if(bars.containsKey(bar)) {
+			for(Player player : Bukkit.getServer().getOnlinePlayers()) {
+				bars.get(bar).addPlayer(player);
+			}
+		} else {
+			Bukkit.getConsoleSender().sendMessage("§eWARN: Peter Timer| func: addAllPlayers; Invalid bar key: " + bar);
 		}
 	}
 	
@@ -211,7 +228,11 @@ public class Timer {
 	 * @param bar - Bar to add them to
 	 */
 	public void addPlayer(Player p, String bar) {
-		bars.get(bar).addPlayer(p);
+		if(bars.containsKey(bar)) {
+			bars.get(bar).addPlayer(p);
+		} else {
+			Bukkit.getConsoleSender().sendMessage("§eWARN: Peter Timer| func: addPlayer; Invalid bar key: " + bar);
+		}
 	}
 	/**
 	 * Adds a list of players to the main bar
@@ -228,8 +249,12 @@ public class Timer {
 	 * @param bar - Bar to add them to
 	 */
 	public void addPlayer(List<Player> p, String bar) {
-		for(Player player : p) {
-			bars.get(bar).addPlayer(player);
+		if(bars.containsKey(bar)) {
+			for(Player player : p) {
+				bars.get(bar).addPlayer(player);
+			}
+		} else {
+			Bukkit.getConsoleSender().sendMessage("§eWARN: Peter Timer| func: addPlayer; Invalid bar key: " + bar);
 		}
 	}
 	
@@ -247,9 +272,13 @@ public class Timer {
 	 * @param bar - Bar to remove them from
 	 */
 	public void removeAllPlayers(String  bar) {
-		List<Player> p = bars.get(bar).getPlayers();
-		for(Player player : p) {
-			bars.get(bar).removePlayer(player);
+		if(bars.containsKey(bar)) {
+			List<Player> p = bars.get(bar).getPlayers();
+			for(Player player : p) {
+				bars.get(bar).removePlayer(player);
+			}
+		} else {
+			Bukkit.getConsoleSender().sendMessage("§eWARN: Peter Timer| func: removeAllPlayers; Invalid bar key: " + bar);
 		}
 	}
 	
@@ -266,7 +295,11 @@ public class Timer {
 	 * @param bar - Bar to remove them from
 	 */
 	public void removePlayer(Player p, String bar) {
-		bars.get(bar).removePlayer(p);
+		if(bars.containsKey(bar)) {
+			bars.get(bar).removePlayer(p);
+		} else {
+			Bukkit.getConsoleSender().sendMessage("§eWARN: Peter Timer| func: removePlayer; Invalid bar key: " + bar);
+		}
 	}
 	/**
 	 * Removes a list of players from the timer
@@ -283,8 +316,12 @@ public class Timer {
 	 * @param bar - Bar to remove them from
 	 */
 	public void removePlayer(List<Player> p, String bar) {
-		for(Player player : p) {
-			bars.get(bar).removePlayer(player);
+		if(bars.containsKey(bar)) {
+			for(Player player : p) {
+				bars.get(bar).removePlayer(player);
+			}
+		} else {
+			Bukkit.getConsoleSender().sendMessage("§eWARN: Peter Timer| func: removePlayer; Invalid bar key: " + bar);
 		}
 	}
 	
@@ -387,7 +424,11 @@ public class Timer {
 	 * @param bar - Bar to change
 	 */
 	public void setColor(BarColor color, String bar) {
-		bars.get(bar).setColor(color);
+		if(bars.containsKey(bar)) {
+			bars.get(bar).setColor(color);
+		} else {
+			Bukkit.getConsoleSender().sendMessage("§eWARN: Peter Timer| func: setColor; Invalid bar key: " + bar);
+		}
 	}
 	
 	/**
@@ -403,7 +444,11 @@ public class Timer {
 	 * @param bar - Bar to change
 	 */
 	public void setStyle(BarStyle style, String bar) {
-		bars.get(bar).setStyle(style);
+		if(bars.containsKey(bar)) {
+			bars.get(bar).setStyle(style);
+		} else {
+			Bukkit.getConsoleSender().sendMessage("§eWARN: Peter Timer| func: setStyle; Invalid bar key: " + bar);
+		}
 	}
 	
 	/**
