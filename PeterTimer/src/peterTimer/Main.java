@@ -32,7 +32,7 @@ public class Main extends JavaPlugin {
 		testTimer.addBar("2", "2");
 		testTimer.addAllPlayers("2");
 		testTimer.setName("1");
-		testTimer.start();
+//		testTimer.start();
 	}
 	
 	@Override
