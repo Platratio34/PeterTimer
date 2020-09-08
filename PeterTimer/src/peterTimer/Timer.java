@@ -11,6 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import net.md_5.bungee.api.ChatColor;
+
 public class Timer {
 	
 	private int totalTime;
@@ -26,6 +28,9 @@ public class Timer {
 	private static int timerN;
 	private Map<String,DisplayBar> bars;
 	private boolean autoChange;
+	private String WARNCOLOR = ChatColor.YELLOW + "";
+	private String RESETCOLOR = ChatColor.RESET + "";
+	private String WARNSEQ = ChatColor.YELLOW + "WARN: [PeterTimer] ";
 	
 	/**
 	 * Constructor for Timer
@@ -145,7 +150,7 @@ public class Timer {
 		if(bars.containsKey(bar)) {
 			bars.get(bar).setName(title);
 		} else {
-			System.out.println("§eWARN: Peter Timer| func: setTitle; Invalid bar key: " + bar);
+			System.out.println(WARNSEQ + " func: setTitle; Invalid bar key: " + bar);
 		}
 	}
 	
@@ -211,7 +216,7 @@ public class Timer {
 				bars.get(bar).addPlayer(player);
 			}
 		} else {
-			System.out.println("§eWARN: Peter Timer| func: addAllPlayers; Invalid bar key: " + bar);
+			System.out.println(WARNSEQ + " func: addAllPlayers; Invalid bar key: " + bar);
 		}
 	}
 	
@@ -231,7 +236,7 @@ public class Timer {
 		if(bars.containsKey(bar)) {
 			bars.get(bar).addPlayer(p);
 		} else {
-			System.out.println("§eWARN: Peter Timer| func: addPlayer; Invalid bar key: " + bar);
+			System.out.println(WARNSEQ + " func: addPlayer; Invalid bar key: " + bar);
 		}
 	}
 	/**
@@ -254,7 +259,7 @@ public class Timer {
 				bars.get(bar).addPlayer(player);
 			}
 		} else {
-			System.out.println("§eWARN: Peter Timer| func: addPlayer; Invalid bar key: " + bar);
+			System.out.println(WARNSEQ + " func: addPlayer; Invalid bar key: " + bar);
 		}
 	}
 	
@@ -278,7 +283,7 @@ public class Timer {
 				bars.get(bar).removePlayer(player);
 			}
 		} else {
-			System.out.println("§eWARN: Peter Timer| func: removeAllPlayers; Invalid bar key: " + bar);
+			System.out.println(WARNSEQ + " func: removeAllPlayers; Invalid bar key: " + bar);
 		}
 	}
 	
@@ -298,7 +303,7 @@ public class Timer {
 		if(bars.containsKey(bar)) {
 			bars.get(bar).removePlayer(p);
 		} else {
-			System.out.println("§eWARN: Peter Timer| func: removePlayer; Invalid bar key: " + bar);
+			System.out.println(WARNSEQ + " func: removePlayer; Invalid bar key: " + bar);
 		}
 	}
 	/**
@@ -321,7 +326,7 @@ public class Timer {
 				bars.get(bar).removePlayer(player);
 			}
 		} else {
-			System.out.println("§eWARN: Peter Timer| func: removePlayer; Invalid bar key: " + bar);
+			System.out.println(WARNSEQ + " func: removePlayer; Invalid bar key: " + bar);
 		}
 	}
 	
@@ -427,7 +432,7 @@ public class Timer {
 		if(bars.containsKey(bar)) {
 			bars.get(bar).setColor(color);
 		} else {
-			System.out.println("§eWARN: Peter Timer| func: setColor; Invalid bar key: " + bar);
+			System.out.println(WARNSEQ + " func: setColor; Invalid bar key: " + bar);
 		}
 	}
 	
@@ -447,7 +452,7 @@ public class Timer {
 		if(bars.containsKey(bar)) {
 			bars.get(bar).setStyle(style);
 		} else {
-			System.out.println("§eWARN: Peter Timer| func: setStyle; Invalid bar key: " + bar);
+			System.out.println(WARNSEQ + " func: setStyle; Invalid bar key: " + bar);
 		}
 	}
 	
