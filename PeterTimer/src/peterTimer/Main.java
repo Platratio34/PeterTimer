@@ -21,7 +21,7 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		PluginDescriptionFile pdf = this.getDescription();
-		if(pdf.getVersion().contains("-dev")) {
+		if(pdf.getVersion().contains("-Dev")) {
 			System.out.println(WARNSEQ + "You are running a dev version of this plugin");
 			dev = true;
 		}
@@ -48,7 +48,7 @@ public class Main extends JavaPlugin {
 //		testTimer.start();
 		
 		System.out.println(INFOSEQ + "Started");
-		if(!Bukkit.getServer().getClass().getPackage().getName().contains("1.16")) {System.out.println(WARNSEQ + "Incorect MC Version");}
+		//if(!Bukkit.getServer().getClass().getPackage().getName().contains(pdf.getAPIVersion())) {System.out.println(WARNSEQ + "Incorect MC Version");}
 	}
 	
 	@Override
