@@ -19,6 +19,10 @@ public class TimerCommands implements CommandExecutor {
 	private Map<Integer, TimeRunnable> map;
 	private JavaPlugin plugin;
 	
+	private String WARNSEQ = ConsoleMessageColors.WARN;
+	private String ERRORSEQ = ConsoleMessageColors.ERROR;
+	private String INFOSEQ = ConsoleMessageColors.INFO;
+	
 	public TimerCommands(JavaPlugin plugin) {
 		this.plugin = plugin;
 		timers = new ArrayList<Timer>();
@@ -120,9 +124,11 @@ public class TimerCommands implements CommandExecutor {
 	}
 	
 	public void StopAll() {
+		System.out.println(INFOSEQ + "Stopping all timers");
 		for(int i = 0; i < timers.size(); i++) {
 			timers.get(i).stop();
 		}
+		System.out.println(INFOSEQ + " ... done");
 	}
 
 }

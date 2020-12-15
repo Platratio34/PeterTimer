@@ -28,9 +28,9 @@ public class Timer {
 	private static int timerN;
 	private Map<String,DisplayBar> bars;
 	private boolean autoChange;
-	private String WARNCOLOR = ChatColor.YELLOW + "";
-	private String RESETCOLOR = ChatColor.RESET + "";
-	private String WARNSEQ = ChatColor.YELLOW + "WARN: [PeterTimer] ";
+	private String WARNSEQ = ConsoleMessageColors.WARN;
+	private String ERRORSEQ = ConsoleMessageColors.ERROR;
+	private String INFOSEQ = ConsoleMessageColors.INFO;
 	
 	/**
 	 * Constructor for Timer

@@ -3,6 +3,7 @@ package peterTimer;
 import java.util.HashMap;
 import java.util.Map;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @SuppressWarnings("unused")
@@ -11,11 +12,23 @@ public class Main extends JavaPlugin {
 	private Timer testTimer;
 	private TimerCommands com;
 	
+	public boolean dev = false;;
+
+	private String WARNSEQ = ConsoleMessageColors.WARN;
+	private String ERRORSEQ = ConsoleMessageColors.ERROR;
+	private String INFOSEQ = ConsoleMessageColors.INFO;
+	
 	@Override
 	public void onEnable() {
+		PluginDescriptionFile pdf = this.getDescription();
+		if(pdf.getVersion().contains("-dev")) {
+			System.out.println(WARNSEQ + "You are running a dev version of this plugin");
+			dev = true;
+		}
 		com = new TimerCommands(this);
 		getCommand("timer").setExecutor(com);
 		getCommand("timer").setTabCompleter(new TimerCompleter(com));
+		
 //		TimeRunnable done = new TimeRunnable() {
 //			public void run(Timer timer) {
 //				Bukkit.getConsoleSender().sendMessage("Timer Done");
@@ -33,6 +46,9 @@ public class Main extends JavaPlugin {
 //		testTimer.addAllPlayers("2");
 //		testTimer.setTitle("1");
 //		testTimer.start();
+		
+		System.out.println(INFOSEQ + "Started");
+		if(!Bukkit.getServer().getClass().getPackage().getName().contains("1.16")) {System.out.println(WARNSEQ + "Incorect MC Version");}
 	}
 	
 	@Override
