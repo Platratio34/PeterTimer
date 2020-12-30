@@ -91,6 +91,12 @@ public class TimerCommands implements CommandExecutor {
 						t.reset();
 						sender.sendMessage("Timer " + args[1] + " max time set to " + (Integer.parseInt(args[2])*20) + " ticks and reset");
 						return true;
+					} else if(args[0].equals("title")) {
+						if(args.length == 3) {
+							t.setTitle(args[2]);
+						}
+						sender.sendMessage("Timer " + args[1] + " removed");
+						return true;
 					} else {
 						sender.sendMessage(ChatColor.RED + "Invalid number of arguments. Add a value");
 						return false;
