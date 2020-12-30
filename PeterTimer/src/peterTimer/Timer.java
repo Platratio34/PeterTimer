@@ -11,8 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
-import net.md_5.bungee.api.ChatColor;
-
 public class Timer {
 	
 	private int totalTime;
@@ -501,7 +499,7 @@ public class Timer {
 				out = i;
 			}
 		}
-		return out;
+		return Math.min(out,timeRemaning%20);
 	}
 	
 	private int clamp(int i, int min, int max) {
