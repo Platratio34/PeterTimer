@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.md_5.bungee.api.ChatColor;
@@ -135,6 +136,12 @@ public class TimerCommands implements CommandExecutor {
 			timers.get(i).stop();
 		}
 		System.out.println(INFOSEQ + " ... done");
+	}
+	
+	public void AddAllPlayer() {
+		for(int i = 0; i < timers.size(); i++) {
+			timers.get(i).addAllPlayers();
+		}
 	}
 
 }

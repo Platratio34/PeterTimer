@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @SuppressWarnings("unused")
@@ -26,6 +27,7 @@ public class Main extends JavaPlugin {
 			dev = true;
 		}
 		com = new TimerCommands(this);
+		Bukkit.getPluginManager().registerEvents(new JoinListener(com), this);
 		getCommand("timer").setExecutor(com);
 		getCommand("timer").setTabCompleter(new TimerCompleter(com));
 		
@@ -49,6 +51,12 @@ public class Main extends JavaPlugin {
 		
 		System.out.println(INFOSEQ + "Started");
 		//if(!Bukkit.getServer().getClass().getPackage().getName().contains(pdf.getAPIVersion())) {System.out.println(WARNSEQ + "Incorect MC Version");}
+	}
+	
+	public void registerEvents() {
+	    //This first line is optional, makes it faster with lots of classes
+	    PluginManager pm = Bukkit.getServer().getPluginManager();
+//	    pm.registerEvents(new , this);
 	}
 	
 	@Override
