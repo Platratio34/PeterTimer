@@ -138,9 +138,14 @@ public class TimerCommands implements CommandExecutor {
 		System.out.println(INFOSEQ + " ... done");
 	}
 	
-	public void AddAllPlayer() {
-		for(int i = 0; i < timers.size(); i++) {
-			timers.get(i).addAllPlayers();
+	public void AddPlayer(Player p) {
+//		for(int i = 0; i < timers.size(); i++) {
+//			timers.get(i).addPlayer(p);
+//		}
+		System.out.println("Adding player to timers");
+		for(Timer t : timers) {
+			t.addPlayer(p);
+//			System.out.println("Adding player to timer " + t.getName());
 		}
 	}
 

@@ -26,8 +26,9 @@ public class Main extends JavaPlugin {
 			System.out.println(WARNSEQ + "You are running a dev version of this plugin");
 			dev = true;
 		}
+		PluginManager pm = Bukkit.getServer().getPluginManager();
 		com = new TimerCommands(this);
-		Bukkit.getPluginManager().registerEvents(new JoinListener(com), this);
+		pm.registerEvents(new JoinListener(com), this);
 		getCommand("timer").setExecutor(com);
 		getCommand("timer").setTabCompleter(new TimerCompleter(com));
 		

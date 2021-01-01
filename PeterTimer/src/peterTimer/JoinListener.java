@@ -1,5 +1,6 @@
 package peterTimer;
 
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
@@ -11,7 +12,9 @@ public class JoinListener implements Listener {
 		this.tc = tc;
 	}
 	
+	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
-        tc.AddAllPlayer();
+        tc.AddPlayer(event.getPlayer());
+//        System.out.println("Player added to timers");
     }
 }

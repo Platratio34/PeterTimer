@@ -499,7 +499,14 @@ public class Timer {
 				out = i;
 			}
 		}
-		return Math.min(out,timeRemaning%20);
+//		System.out.println(timeRemaning%20);
+		if(timeRemaning%20 > 0) {
+			out = Math.min(out, timeRemaning%20);
+		}
+		if(timeRemaning%180 > 0) {
+			out = Math.min(out, timeRemaning%180);
+		}
+		return out;
 	}
 	
 	private int clamp(int i, int min, int max) {
