@@ -11,14 +11,31 @@ public class DisplayBar {
 	
 	public BossBar bar;
 	private String name;
+	private boolean showName;
+	private boolean showTime;
 	
 	public DisplayBar(String name, BarColor color, BarStyle style) {
 		this.name = name;
+		showName = true;
+		showTime = true;
+		bar = Bukkit.createBossBar(name, color, style);
+	}
+	public DisplayBar(String name, BarColor color, BarStyle style, boolean showName, boolean showTime) {
+		this.name = name;
+		this.showName = showName;
+		this.showTime = showTime;
 		bar = Bukkit.createBossBar(name, color, style);
 	}
 	
 	public void update(String time, double progress) {
-		bar.setTitle(name + " " + time);
+		String title = "";
+		if(showName) {
+			title = name + " ";
+		}
+		if(showTime) {
+			title += time + "";
+		}
+		bar.setTitle(title);
 		bar.setProgress(progress);
 	}
 	
@@ -52,5 +69,25 @@ public class DisplayBar {
 	
 	public void remove() {
 		bar.setVisible(false);
+	}
+	
+	public void showName() {
+		showName = true;
+	}
+	public void showName(boolean showName) {
+		this.showName = showName;
+	}
+	public void hideName() {
+		showName = false;
+	}
+	
+	public void showTime() {
+		showTime = true;
+	}
+	public void showTime(boolean showTime) {
+		this.showTime = showTime;
+	}
+	public void hideTime() {
+		showTime = false;
 	}
 }

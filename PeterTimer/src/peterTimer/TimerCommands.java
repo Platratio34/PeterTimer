@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.md_5.bungee.api.ChatColor;
@@ -18,6 +19,10 @@ public class TimerCommands implements CommandExecutor {
 	private List<Timer> timers;
 	private Map<Integer, TimeRunnable> map;
 	private JavaPlugin plugin;
+	
+	private String WARNSEQ = ConsoleMessageColors.WARN;
+	private String ERRORSEQ = ConsoleMessageColors.ERROR;
+	private String INFOSEQ = ConsoleMessageColors.INFO;
 	
 	public TimerCommands(JavaPlugin plugin) {
 		this.plugin = plugin;
@@ -88,7 +93,23 @@ public class TimerCommands implements CommandExecutor {
 						sender.sendMessage("Timer " + args[1] + " max time set to " + (Integer.parseInt(args[2])*20) + " ticks and reset");
 						return true;
 					} else {
-						sender.sendMessage(ChatColor.RED + "Invalid number of arguments. Add a value");
+						sender.sendMessage(ChatColor.RED + "Invalid number of arguments. Add a time");
+						return false;
+					}
+				} else if(args[0].equals("title")) {
+					if(args.length >= 3) {
+						String title = "";
+						for(int i = 2; i < args.length; i++) {
+							if(i > 2) {
+								title += " ";
+							}
+							title += args[i];
+						}
+						t.setTitle(title);
+						sender.sendMessage("Timer " + args[1] + " title set to " + title);
+						return true;
+					} else {
+						sender.sendMessage("Failed to set title of timer " + args[1] + ", no title");
 						return false;
 					}
 				} else {
@@ -117,6 +138,25 @@ public class TimerCommands implements CommandExecutor {
 			l.add(timers.get(i).getName());
 		}
 		return l;
+	}
+	
+	public void StopAll() {
+		System.out.println(INFOSEQ + "Stopping all timers");
+		for(int i = 0; i < timers.size(); i++) {
+			timers.get(i).stop();
+		}
+		System.out.println(INFOSEQ + " ... done");
+	}
+	
+	public void AddPlayer(Player p) {
+//		for(int i = 0; i < timers.size(); i++) {
+//			timers.get(i).addPlayer(p);
+//		}
+		System.out.println("Adding player to timers");
+		for(Timer t : timers) {
+			t.addPlayer(p);
+//			System.out.println("Adding player to timer " + t.getName());
+		}
 	}
 
 }

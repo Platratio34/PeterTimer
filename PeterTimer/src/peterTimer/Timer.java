@@ -1,7 +1,5 @@
 package peterTimer;
 
-import org.bukkit.scheduler.BukkitScheduler;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,12 +9,13 @@ import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
 public class Timer {
 	
 	private int totalTime;
 	private int timeRemaning;
-	private String title;
+	//private String title;
 	private String name;
 	private boolean showOnlyTime;
 	private boolean running;
@@ -27,6 +26,9 @@ public class Timer {
 	private static int timerN;
 	private Map<String,DisplayBar> bars;
 	private boolean autoChange;
+	private String WARNSEQ = ConsoleMessageColors.WARN;
+	private String ERRORSEQ = ConsoleMessageColors.ERROR;
+	private String INFOSEQ = ConsoleMessageColors.INFO;
 	
 	/**
 	 * Constructor for Timer
@@ -123,9 +125,18 @@ public class Timer {
 	 * Sets the name of the timer
 	 * @param name - new name for the timer
 	 */
+	@Deprecated
 	public void setName(String name) {
 		this.name = name;
 		bars.get("main").setName(name);
+	}
+	
+	/**
+	 * Sets the title of the main bar
+	 * @param title - the new title
+	 */
+	public void setTitle(String title) {
+		bars.get("main").setName(title);
 	}
 	
 	/**
@@ -134,7 +145,11 @@ public class Timer {
 	 * @param bar - the bar to change
 	 */
 	public void setTitle(String title, String bar) {
-		bars.get(bar).setName(title);
+		if(bars.containsKey(bar)) {
+			bars.get(bar).setName(title);
+		} else {
+			System.out.println(WARNSEQ + " func: setTitle; Invalid bar key: " + bar);
+		}
 	}
 	
 	/**
@@ -152,15 +167,18 @@ public class Timer {
 	 */
 	public void reset() {
 		stop();
+		timeBetween = Math.max(Math.min(totalTime/180, 1), 20);
+		timeBetween = clamp(totalTime/180, 1, 20);
 		timeRemaning = totalTime;
-		if(showOnlyTime) {
+		/*if(showOnlyTime) {
 			title = format(timeRemaning);
 		} else {
 			title = name + " " + format(timeRemaning);
 		}
-		bars.get("main").update(format(timeRemaning), 1.0);
+		bars.get("main").update(format(timeRemaning), 1.0);*/
 		for(DisplayBar b : bars.values()) {
 			b.update(format(timeRemaning), 1.0);
+			b.setColor(BarColor.GREEN);
 		}
 		
 	}
@@ -191,8 +209,12 @@ public class Timer {
 	 * @param bar - Bar to add them to
 	 */
 	public void addAllPlayers(String bar) {
-		for(Player player : Bukkit.getServer().getOnlinePlayers()) {
-			bars.get(bar).addPlayer(player);
+		if(bars.containsKey(bar)) {
+			for(Player player : Bukkit.getServer().getOnlinePlayers()) {
+				bars.get(bar).addPlayer(player);
+			}
+		} else {
+			System.out.println(WARNSEQ + " func: addAllPlayers; Invalid bar key: " + bar);
 		}
 	}
 	
@@ -209,7 +231,11 @@ public class Timer {
 	 * @param bar - Bar to add them to
 	 */
 	public void addPlayer(Player p, String bar) {
-		bars.get(bar).addPlayer(p);
+		if(bars.containsKey(bar)) {
+			bars.get(bar).addPlayer(p);
+		} else {
+			System.out.println(WARNSEQ + " func: addPlayer; Invalid bar key: " + bar);
+		}
 	}
 	/**
 	 * Adds a list of players to the main bar
@@ -226,8 +252,12 @@ public class Timer {
 	 * @param bar - Bar to add them to
 	 */
 	public void addPlayer(List<Player> p, String bar) {
-		for(Player player : p) {
-			bars.get(bar).addPlayer(player);
+		if(bars.containsKey(bar)) {
+			for(Player player : p) {
+				bars.get(bar).addPlayer(player);
+			}
+		} else {
+			System.out.println(WARNSEQ + " func: addPlayer; Invalid bar key: " + bar);
 		}
 	}
 	
@@ -245,9 +275,13 @@ public class Timer {
 	 * @param bar - Bar to remove them from
 	 */
 	public void removeAllPlayers(String  bar) {
-		List<Player> p = bars.get(bar).getPlayers();
-		for(Player player : p) {
-			bars.get(bar).removePlayer(player);
+		if(bars.containsKey(bar)) {
+			List<Player> p = bars.get(bar).getPlayers();
+			for(Player player : p) {
+				bars.get(bar).removePlayer(player);
+			}
+		} else {
+			System.out.println(WARNSEQ + " func: removeAllPlayers; Invalid bar key: " + bar);
 		}
 	}
 	
@@ -264,7 +298,11 @@ public class Timer {
 	 * @param bar - Bar to remove them from
 	 */
 	public void removePlayer(Player p, String bar) {
-		bars.get(bar).removePlayer(p);
+		if(bars.containsKey(bar)) {
+			bars.get(bar).removePlayer(p);
+		} else {
+			System.out.println(WARNSEQ + " func: removePlayer; Invalid bar key: " + bar);
+		}
 	}
 	/**
 	 * Removes a list of players from the timer
@@ -281,8 +319,12 @@ public class Timer {
 	 * @param bar - Bar to remove them from
 	 */
 	public void removePlayer(List<Player> p, String bar) {
-		for(Player player : p) {
-			bars.get(bar).removePlayer(player);
+		if(bars.containsKey(bar)) {
+			for(Player player : p) {
+				bars.get(bar).removePlayer(player);
+			}
+		} else {
+			System.out.println(WARNSEQ + " func: removePlayer; Invalid bar key: " + bar);
 		}
 	}
 	
@@ -302,10 +344,24 @@ public class Timer {
 	 */
 	public void update(int dTime) {
 		timeRemaning -= dTime;
-		if(showOnlyTime) {
-			title = format(timeRemaning);
+		if(timeRemaning <= 0) {
+			running = false;
+			callbacks.get(0).run(this);
 		} else {
-			title = name + " " + format(timeRemaning);
+			if(running) {
+				if(callbacks.get(timeRemaning) != null) {
+					callbacks.get(timeRemaning).run(this);
+				}
+				int next = runTill(timeBetween, timeRemaning);
+				scheduler.scheduleSyncDelayedTask(plugin, new Runnable() {
+					 
+					 @Override
+					 public void run() {
+	                	 update(next);
+					 }
+					 
+				 }, next);
+			}
 		}
 		if(autoChange) {
 			if(timeRemaning <= Math.min(200, totalTime/5)) {
@@ -383,7 +439,11 @@ public class Timer {
 	 * @param bar - Bar to change
 	 */
 	public void setColor(BarColor color, String bar) {
-		bars.get(bar).setColor(color);
+		if(bars.containsKey(bar)) {
+			bars.get(bar).setColor(color);
+		} else {
+			System.out.println(WARNSEQ + " func: setColor; Invalid bar key: " + bar);
+		}
 	}
 	
 	/**
@@ -399,7 +459,11 @@ public class Timer {
 	 * @param bar - Bar to change
 	 */
 	public void setStyle(BarStyle style, String bar) {
-		bars.get(bar).setStyle(style);
+		if(bars.containsKey(bar)) {
+			bars.get(bar).setStyle(style);
+		} else {
+			System.out.println(WARNSEQ + " func: setStyle; Invalid bar key: " + bar);
+		}
 	}
 	
 	/**
@@ -438,5 +502,26 @@ public class Timer {
 			sm = "0" + sm;
 		}
 		return sm + ":" + ss;
+	}
+	
+	private int runTill(int max, int current) {
+		int out = max;
+		for(int i = 1; i < max; i++) {
+			if(callbacks.get(current - i) != null) {
+				out = i;
+			}
+		}
+//		System.out.println(timeRemaning%20);
+		if(timeRemaning%20 > 0) {
+			out = Math.min(out, timeRemaning%20);
+		}
+		if(timeRemaning%180 > 0) {
+			out = Math.min(out, timeRemaning%180);
+		}
+		return out;
+	}
+	
+	private int clamp(int i, int min, int max) {
+		return Math.min(Math.max(i,  min), max);
 	}
 }

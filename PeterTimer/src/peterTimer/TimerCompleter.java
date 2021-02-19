@@ -26,6 +26,7 @@ public class TimerCompleter implements TabCompleter {
 			l.add("stop");
 			l.add("reset");
 			l.add("time");
+			l.add("title");
 			l = fix(l, args[0]);
 		} else {
 			if(args.length == 2 && !args[0].equals("list")) {
