@@ -20,7 +20,7 @@ public class Timer {
 	private boolean showOnlyTime;
 	private boolean running;
 	private Map<Integer,TimeRunnable> callbacks;
-	private int timeBetween;
+	private int timeBetween = 1;
 	private BukkitScheduler scheduler;
 	private JavaPlugin plugin;
 	private static int timerN;
@@ -363,11 +363,6 @@ public class Timer {
 				 }, next);
 			}
 		}
-		/*if(showOnlyTime) {
-			title = format(timeRemaning);
-		} else {
-			title = name + " " + format(timeRemaning);
-		}*/
 		if(autoChange) {
 			if(timeRemaning <= Math.min(200, totalTime/5)) {
 				for(DisplayBar b : bars.values()) {
@@ -383,7 +378,24 @@ public class Timer {
 			b.update(format(timeRemaning), (double)timeRemaning/(double)totalTime);
 		}
 		//Bukkit.getConsoleSender().sendMessage("Timer: " + title + ", " + (double)timeRemaning/(double)totalTime);
-		
+		if(timeRemaning <= 0) {
+			running = false;
+			callbacks.get(0).run(this);
+		} else {
+			if(running) {
+				if(callbacks.get(timeRemaning) != null) {
+					callbacks.get(timeRemaning).run(this);
+				}
+				scheduler.scheduleSyncDelayedTask(plugin, new Runnable() {
+					 
+					 @Override
+					 public void run() {
+	                	 update(timeBetween);
+					 }
+					 
+				 }, timeBetween);
+			}
+		}
 	}
 	
 	/**
