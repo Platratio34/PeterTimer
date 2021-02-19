@@ -1,6 +1,6 @@
 main: peterTimer.Main
 name: PeterTimer
-version: 2.0-Dev4
+version: 2.0
 api-version: 1.16
 author: Platratio34
 commands:
