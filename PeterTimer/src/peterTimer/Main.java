@@ -13,7 +13,7 @@ public class Main extends JavaPlugin {
 	private Timer testTimer;
 	private TimerCommands com;
 	
-	public boolean dev = false;;
+	public boolean dev = false;
 
 	private String WARNSEQ = ConsoleMessageColors.WARN;
 	private String ERRORSEQ = ConsoleMessageColors.ERROR;
