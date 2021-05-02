@@ -524,4 +524,17 @@ public class Timer {
 	private int clamp(int i, int min, int max) {
 		return Math.min(Math.max(i,  min), max);
 	}
+	
+	public void addCallback(int t, TimeRunnable c) {
+		callbacks.put(t, c);
+	}
+	
+	public boolean removeCallback(int t) {
+		if(callbacks.containsKey(t)) {
+			callbacks.remove(t);
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
