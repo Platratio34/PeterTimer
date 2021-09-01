@@ -2,6 +2,8 @@ package peterTimer;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
@@ -10,21 +12,30 @@ import org.bukkit.plugin.java.JavaPlugin;
 @SuppressWarnings("unused")
 public class Main extends JavaPlugin {
 	
+	public static Logger log;
+	
 	private Timer testTimer;
 	private TimerCommands com;
 	
-	public boolean dev = false;;
+	public boolean dev = false;
 
-	private String WARNSEQ = ConsoleMessageColors.WARN;
-	private String ERRORSEQ = ConsoleMessageColors.ERROR;
-	private String INFOSEQ = ConsoleMessageColors.INFO;
+//	private String WARNSEQ = ConsoleMessageColors.WARN;
+//	private String ERRORSEQ = ConsoleMessageColors.ERROR;
+//	private String INFOSEQ = ConsoleMessageColors.INFO;
 	
 	@Override
 	public void onEnable() {
+
+		log = super.getLogger();
+		
 		PluginDescriptionFile pdf = this.getDescription();
 		if(pdf.getVersion().contains("-Dev")) {
-			System.out.println(WARNSEQ + "You are running a dev version of this plugin");
+//			System.out.println(WARNSEQ + "You are running a dev version of this plugin");
+			log.warning("You are running a dev version of this plugin");
 			dev = true;
+		}
+		if(!Bukkit.getVersion().contains(pdf.getAPIVersion())) {
+			log.warning("You are running a unsuported server version, check for a new version for you server. (Server:" + Bukkit.getVersion() + ", Plugin:" + pdf.getAPIVersion() + ")");
 		}
 		PluginManager pm = Bukkit.getServer().getPluginManager();
 		com = new TimerCommands(this);
@@ -50,7 +61,7 @@ public class Main extends JavaPlugin {
 //		testTimer.setTitle("1");
 //		testTimer.start();
 		
-		System.out.println(INFOSEQ + "Started");
+		log.info("Started");
 		//if(!Bukkit.getServer().getClass().getPackage().getName().contains(pdf.getAPIVersion())) {System.out.println(WARNSEQ + "Incorect MC Version");}
 	}
 	

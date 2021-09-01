@@ -3,6 +3,7 @@ package peterTimer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
@@ -26,9 +27,11 @@ public class Timer {
 	private static int timerN;
 	private Map<String,DisplayBar> bars;
 	private boolean autoChange;
-	private String WARNSEQ = ConsoleMessageColors.WARN;
-	private String ERRORSEQ = ConsoleMessageColors.ERROR;
-	private String INFOSEQ = ConsoleMessageColors.INFO;
+//	private String WARNSEQ = ConsoleMessageColors.WARN;
+//	private String ERRORSEQ = ConsoleMessageColors.ERROR;
+//	private String INFOSEQ = ConsoleMessageColors.INFO;
+	
+	public Logger log;
 	
 	/**
 	 * Constructor for Timer
@@ -43,6 +46,8 @@ public class Timer {
 		this.name = name;
 		this.callbacks = callbacks;
 		this.plugin = plugin;
+		
+		log = plugin.getLogger();
 		if(time > 1) {
 			totalTime = time;
 		}
@@ -148,7 +153,7 @@ public class Timer {
 		if(bars.containsKey(bar)) {
 			bars.get(bar).setName(title);
 		} else {
-			System.out.println(WARNSEQ + " func: setTitle; Invalid bar key: " + bar);
+			log.warning(" func: setTitle; Invalid bar key: " + bar);
 		}
 	}
 	
@@ -214,7 +219,7 @@ public class Timer {
 				bars.get(bar).addPlayer(player);
 			}
 		} else {
-			System.out.println(WARNSEQ + " func: addAllPlayers; Invalid bar key: " + bar);
+			log.warning(" func: addAllPlayers; Invalid bar key: " + bar);
 		}
 	}
 	
@@ -234,7 +239,7 @@ public class Timer {
 		if(bars.containsKey(bar)) {
 			bars.get(bar).addPlayer(p);
 		} else {
-			System.out.println(WARNSEQ + " func: addPlayer; Invalid bar key: " + bar);
+			log.warning(" func: addPlayer; Invalid bar key: " + bar);
 		}
 	}
 	/**
@@ -257,7 +262,7 @@ public class Timer {
 				bars.get(bar).addPlayer(player);
 			}
 		} else {
-			System.out.println(WARNSEQ + " func: addPlayer; Invalid bar key: " + bar);
+			log.warning(" func: addPlayer; Invalid bar key: " + bar);
 		}
 	}
 	
@@ -281,7 +286,7 @@ public class Timer {
 				bars.get(bar).removePlayer(player);
 			}
 		} else {
-			System.out.println(WARNSEQ + " func: removeAllPlayers; Invalid bar key: " + bar);
+			log.warning(" func: removeAllPlayers; Invalid bar key: " + bar);
 		}
 	}
 	
@@ -301,7 +306,7 @@ public class Timer {
 		if(bars.containsKey(bar)) {
 			bars.get(bar).removePlayer(p);
 		} else {
-			System.out.println(WARNSEQ + " func: removePlayer; Invalid bar key: " + bar);
+			log.warning(" func: removePlayer; Invalid bar key: " + bar);
 		}
 	}
 	/**
@@ -324,7 +329,7 @@ public class Timer {
 				bars.get(bar).removePlayer(player);
 			}
 		} else {
-			System.out.println(WARNSEQ + " func: removePlayer; Invalid bar key: " + bar);
+			log.warning(" func: removePlayer; Invalid bar key: " + bar);
 		}
 	}
 	
@@ -378,24 +383,24 @@ public class Timer {
 			b.update(format(timeRemaning), (double)timeRemaning/(double)totalTime);
 		}
 		//Bukkit.getConsoleSender().sendMessage("Timer: " + title + ", " + (double)timeRemaning/(double)totalTime);
-		if(timeRemaning <= 0) {
-			running = false;
-			callbacks.get(0).run(this);
-		} else {
-			if(running) {
-				if(callbacks.get(timeRemaning) != null) {
-					callbacks.get(timeRemaning).run(this);
-				}
-				scheduler.scheduleSyncDelayedTask(plugin, new Runnable() {
-					 
-					 @Override
-					 public void run() {
-	                	 update(timeBetween);
-					 }
-					 
-				 }, timeBetween);
-			}
-		}
+//		if(timeRemaning <= 0) {
+//			running = false;
+//			callbacks.get(0).run(this);
+//		} else {
+//			if(running) {
+//				if(callbacks.get(timeRemaning) != null) {
+//					callbacks.get(timeRemaning).run(this);
+//				}
+//				scheduler.scheduleSyncDelayedTask(plugin, new Runnable() {
+//					 
+//					 @Override
+//					 public void run() {
+//	                	 update(timeBetween);
+//					 }
+//					 
+//				 }, timeBetween);
+//			}
+//		}
 	}
 	
 	/**
@@ -442,7 +447,7 @@ public class Timer {
 		if(bars.containsKey(bar)) {
 			bars.get(bar).setColor(color);
 		} else {
-			System.out.println(WARNSEQ + " func: setColor; Invalid bar key: " + bar);
+			log.warning(" func: setColor; Invalid bar key: " + bar);
 		}
 	}
 	
@@ -462,7 +467,7 @@ public class Timer {
 		if(bars.containsKey(bar)) {
 			bars.get(bar).setStyle(style);
 		} else {
-			System.out.println(WARNSEQ + " func: setStyle; Invalid bar key: " + bar);
+			log.warning(" func: setStyle; Invalid bar key: " + bar);
 		}
 	}
 	
@@ -523,5 +528,18 @@ public class Timer {
 	
 	private int clamp(int i, int min, int max) {
 		return Math.min(Math.max(i,  min), max);
+	}
+	
+	public void addCallback(int t, TimeRunnable c) {
+		callbacks.put(t, c);
+	}
+	
+	public boolean removeCallback(int t) {
+		if(callbacks.containsKey(t)) {
+			callbacks.remove(t);
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
