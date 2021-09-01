@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -20,12 +21,15 @@ public class TimerCommands implements CommandExecutor {
 	private Map<Integer, TimeRunnable> map;
 	private JavaPlugin plugin;
 	
-	private String WARNSEQ = ConsoleMessageColors.WARN;
-	private String ERRORSEQ = ConsoleMessageColors.ERROR;
-	private String INFOSEQ = ConsoleMessageColors.INFO;
+	public Logger log;
+	
+//	private String WARNSEQ = ConsoleMessageColors.WARN;
+//	private String ERRORSEQ = ConsoleMessageColors.ERROR;
+//	private String INFOSEQ = ConsoleMessageColors.INFO;
 	
 	public TimerCommands(JavaPlugin plugin) {
 		this.plugin = plugin;
+		log = plugin.getLogger();
 		timers = new ArrayList<Timer>();
 		map = new HashMap<Integer, TimeRunnable>();
 		map.put(0, new TimeRunnable() {
@@ -141,18 +145,18 @@ public class TimerCommands implements CommandExecutor {
 	}
 	
 	public void StopAll() {
-		System.out.println(INFOSEQ + "Stopping all timers");
+	    log.info("Stopping all timers ...");
 		for(int i = 0; i < timers.size(); i++) {
 			timers.get(i).stop();
 		}
-		System.out.println(INFOSEQ + " ... done");
+		log.info(" ... done");
 	}
 	
 	public void AddPlayer(Player p) {
 //		for(int i = 0; i < timers.size(); i++) {
 //			timers.get(i).addPlayer(p);
 //		}
-		System.out.println("Adding player to timers");
+//		System.out.println("Adding player to timers");
 		for(Timer t : timers) {
 			t.addPlayer(p);
 //			System.out.println("Adding player to timer " + t.getName());
