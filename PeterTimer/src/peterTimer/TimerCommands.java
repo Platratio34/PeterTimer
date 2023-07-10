@@ -23,10 +23,6 @@ public class TimerCommands implements CommandExecutor {
 	
 	public Logger log;
 	
-//	private String WARNSEQ = ConsoleMessageColors.WARN;
-//	private String ERRORSEQ = ConsoleMessageColors.ERROR;
-//	private String INFOSEQ = ConsoleMessageColors.INFO;
-	
 	public TimerCommands(JavaPlugin plugin) {
 		this.plugin = plugin;
 		log = plugin.getLogger();
@@ -122,7 +118,7 @@ public class TimerCommands implements CommandExecutor {
 				}
 			} else {
 				if(args[0].equals("add")) {
-					timers.add(new Timer(1, args[1], map, false, plugin));
+					timers.add(new Timer(1, args[1], map, plugin));
 					sender.sendMessage("Timer " + args[1] + " added");
 				} else {
 					sender.sendMessage(ChatColor.RED + "That timer does not exist");
