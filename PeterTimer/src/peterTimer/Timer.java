@@ -90,7 +90,6 @@ public class Timer {
 		bars.put("main", new DisplayBar(name, BarColor.GREEN, BarStyle.SOLID));
 		reset();
 	}
-
 	/**
 	 * Constructor for Timer
 	 * @param time Starting time
@@ -155,6 +154,27 @@ public class Timer {
 		bars.put("main", new DisplayBar(name, BarColor.GREEN, BarStyle.SOLID));
 		reset();
 		timerN++;
+	}
+	/**
+	 * Constructor for Timer
+	 * @param time Starting time
+	 * @param name Name of the Timer
+	 * @param plugin The Plugin making the timer
+	 */
+	public Timer(int time, String name, JavaPlugin plugin) {
+		this.name = name;
+		this.callbacks = new HashMap<Integer,TimeRunnable>();
+		this.plugin = plugin;
+		
+		log = plugin.getLogger();
+		if(time > 1) {
+			totalTime = time;
+		}
+		scheduler = plugin.getServer().getScheduler();
+		autoChange = true;
+		bars = new HashMap<String, DisplayBar>();
+		bars.put("main", new DisplayBar(name, BarColor.GREEN, BarStyle.SOLID));
+		reset();
 	}
 	
 	/**

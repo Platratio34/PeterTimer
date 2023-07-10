@@ -14,7 +14,6 @@ public class Main extends JavaPlugin {
 	
 	public static Logger log;
 	
-	private Timer testTimer;
 	private TimerCommands com;
 	
 	public boolean dev = false;
@@ -60,6 +59,29 @@ public class Main extends JavaPlugin {
 //		testTimer.addAllPlayers("2");
 //		testTimer.setTitle("1");
 //		testTimer.start();
+		
+		int time = 30 * 20; // 30 seconds in ticks
+		String name = "testTimer"; // Timer name
+		JavaPlugin plugin = this; // The plugin creating the timer
+
+		Timer timer = new Timer(time, name, this); // Create a new timer with time and name
+		timer.addAllPlayers(); // Show the timer to all players
+
+		timer.addBar("2", "2"); // Add a second bar with title "2"
+		timer.addAllPlayers("2"); // Show the second bar to all players
+		timer.setTitle("1"); // Set the title of the main bar to "1"
+
+		TimeRunnable done = new TimeRunnable() { // Create callback for when timer is done
+			public void run(Timer timer) {
+				Bukkit.getConsoleSender().sendMessage("Timer Done"); // Send a message to the console saying the timer is done
+				timer.stop(); // Stop the timer (Optional)
+				timer.removeAllPlayers(); // Hide the main bar from all players (It wont show up if you restart it then)
+				timer.removeAllPlayers("2"); // Hide the second bar from all players (It wont show up if you restart it then)
+			}
+		};
+		timer.addCallback(0,done); // Add the callback at 0 ticks remaining
+
+		timer.start(); // Start the timer
 		
 		log.info("Started");
 		//if(!Bukkit.getServer().getClass().getPackage().getName().contains(pdf.getAPIVersion())) {System.out.println(WARNSEQ + "Incorect MC Version");}
