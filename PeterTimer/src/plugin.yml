@@ -1,7 +1,7 @@
 main: peterTimer.Main
 name: PeterTimer
-version: 2.2.1
-api-version: 1.17
+version: 2.2.2
+api-version: 1.20
 author: Platratio34
 commands:
   timer:
