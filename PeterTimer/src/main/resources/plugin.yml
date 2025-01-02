@@ -1,7 +1,7 @@
-main: peterTimer.Main
+main: com.peter.petertimer.Main
 name: PeterTimer
 version: 3.0.0
-api-version: 1.21.1
+api-version: 1.21.4
 author: Platratio34
 commands:
   timer:
