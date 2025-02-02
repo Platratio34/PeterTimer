@@ -1,5 +1,19 @@
 # Changelog
 
+## v3.0.0 -> 3.1.0
+
+### Breaking Changes
+- Renamed `WorldDateTime.WORLD_TO_SECONDS` to `WORLD_TO_REAL_SECONDS`
+- Changed all hour references in `WorldDateTime` to fix for ticks starting at 6am on day 0 instead of midnight
+- Renamed constants in `ConsoleMEssageColors` `WARNCOLOR`, `ERRORCOLOR`, and `RESETCOLOR` to `WARN_COLOR`, `ERROR_COLOR`, and `RESET_COLOR`
+
+### Modifications
+- Added `WorldDateTime.TICKS_TO_WORLD_HOURS` and `WorldDateTime.TICKS_TO_WORLD_MINUTES`
+- Added `WorldDateTime.setHourTicks(long): WorldDateTime`
+- Added `WorldDateTime.setMinute(int): WorldDateTime`
+- Fixed `WorldDateTime.formattedTime(): String` to return a time formatted as `DD HH:MM` instead of `DD:MM`
+- And lots of spelling fixes, cause apparently my other dev environment wasn't giving me spell check
+
 ## v2.2.2 -> v3.0.0
 
 Updated to MC 1.21.4
@@ -51,7 +65,7 @@ Added `IngameTimer` for timing based on ingame time
         - `protected scheduleNext(int)`
 - `Timer` now inherits from `AbstractTimer`
 - Added `IngameTimer`
-    - Runs till a secified in-game time
+    - Runs till a specified in-game time
     - Constructors
         - `IngameTimer(String name, JavaPlugin plugin, long endTime, World world)`
         - `IngameTimer(String name, JavaPlugin plugin, WorldDateTime endTime)`
@@ -79,7 +93,7 @@ Added `IngameTimer` for timing based on ingame time
         - `copy(): WordDateTime`
     - Fields
         - `World world`
-    - Constatns
+    - Constants
         - `float WORLD_TO_SECONDS = (20 * 60) / (1000 * 24)`
 - Added `TimeRunnableExact`
     - Extends `TimeRunnable`
