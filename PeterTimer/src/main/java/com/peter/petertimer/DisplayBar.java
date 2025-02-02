@@ -58,7 +58,7 @@ public class DisplayBar {
 	
 	/**
 	 * Update time remaining text and bar progress
-	 * @param time Time remaining formated string
+	 * @param time Time remaining formatted string
 	 * @param progress Bar progress from 0 to 1
 	 */
 	public void update(String time, double progress) {

@@ -19,10 +19,6 @@ public class Main extends JavaPlugin {
 
 	public boolean dev = false;
 
-	// private String WARNSEQ = ConsoleMessageColors.WARN;
-	// private String ERRORSEQ = ConsoleMessageColors.ERROR;
-	// private String INFOSEQ = ConsoleMessageColors.INFO;
-
 	@Override
 	public void onEnable() {
 
@@ -36,7 +32,7 @@ public class Main extends JavaPlugin {
 		}
 		if (!Bukkit.getVersion().contains(pdf.getAPIVersion())) {
 			logger.log(Level.WARNING,
-					"You are running a unsuported server version, check for a new version for you server. (Server:{0}, Plugin:{1})",
+					"You are running a unsupported server version, check for a new version for you server. (Server:{0}, Plugin:{1})",
 					new Object[] { Bukkit.getVersion(), pdf.getAPIVersion() });
 		}
 		PluginManager pm = Bukkit.getServer().getPluginManager();
@@ -44,7 +40,7 @@ public class Main extends JavaPlugin {
 		pm.registerEvents(new JoinListener(com), this);
 		PluginCommand command = getCommand("timer");
 		if (command == null) {
-			logger.warning("Unable to register timer commnad");
+			logger.warning("Unable to register timer command");
 		} else {
 			command.setExecutor(com);
 			command.setTabCompleter(new TimerCompleter(com));
@@ -74,7 +70,7 @@ public class Main extends JavaPlugin {
 
 		// logger.info("Started PeterTimer");
 		// if(!Bukkit.getServer().getClass().getPackage().getName().contains(pdf.getAPIVersion()))
-		// {System.out.println(WARNSEQ + "Incorect MC Version");}
+		// {System.out.println(WARNSEQ + "Incorrect MC Version");}
 	}
 
 	public void registerEvents() {

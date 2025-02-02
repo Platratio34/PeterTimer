@@ -6,7 +6,7 @@ package com.peter.petertimer;
 public interface TimeRunnable {
 	
 	/**
-	 * callback from a Timer
+	 * Callback from a Timer
 	 * @param timer The timer that called the runnable
 	 */
 	public void run(AbstractTimer timer);

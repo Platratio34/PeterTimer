@@ -10,7 +10,7 @@ public class Timer extends AbstractTimer {
 	/** Total time in ticks */
 	private int totalTime;
 	/** * Time remaining in ticks */
-	private int timeRemaning;
+	private int timeRemaining;
 	
 	/**
 	 * Constructor for Timer
@@ -66,20 +66,20 @@ public class Timer extends AbstractTimer {
 
     @Override
     public int getTime() {
-        return timeRemaning;
+        return timeRemaining;
     }
 	
 	/**
 	 * Resets the Timer:
 	 * setting time remaining to max time,
-	 * and reseting bossbar title to name or time
+	 * and resetting bossbar title to name or time
 	 */
 	public void reset() {
 		stop();
 		calcMaxBetween(totalTime);
-		timeRemaning = totalTime;
+		timeRemaining = totalTime;
 		for(DisplayBar b : bars.values()) {
-			b.update(format(timeRemaning), 1.0);
+			b.update(format(timeRemaining), 1.0);
 			b.setColor(BarColor.GREEN);
 		}
 		
@@ -91,19 +91,19 @@ public class Timer extends AbstractTimer {
 	 */
 	@Override
 	protected void update(int dTime) {
-		timeRemaning -= dTime;
-		if(timeRemaning <= 0) {
+		timeRemaining -= dTime;
+		if(timeRemaining <= 0) {
 			running = false;
 			callbacks.get(0).run(this);
 		} else {
 			if(running) {
-				if(callbacks.get(timeRemaning) != null) {
-					callbacks.get(timeRemaning).run(this);
+				if(callbacks.get(timeRemaining) != null) {
+					callbacks.get(timeRemaining).run(this);
 				}
-				scheduleNext(timeRemaning);
+				scheduleNext(timeRemaining);
 			}
 		}
-		updateBars(timeRemaning, totalTime);
+		updateBars(timeRemaining, totalTime);
 	}
 	
 	/**
@@ -113,7 +113,7 @@ public class Timer extends AbstractTimer {
 	 */
 	public boolean setTime(int t) {
 		if(!running) {
-			timeRemaning = t;
+			timeRemaining = t;
 			return true;
 		} else {
 			return false;

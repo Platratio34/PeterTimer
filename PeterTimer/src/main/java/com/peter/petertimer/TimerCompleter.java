@@ -16,7 +16,7 @@ public class TimerCompleter implements TabCompleter {
 	}
 	
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command com, String lable, String[] args) {
+	public List<String> onTabComplete(CommandSender sender, Command com, String label, String[] args) {
 		List<String> l = new ArrayList<String>();
 		if(args.length == 1) {
 			l.add("list");

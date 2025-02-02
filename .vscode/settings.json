@@ -1,5 +1,14 @@
 {
     "java.compile.nullAnalysis.mode": "disabled",
     "java.dependency.packagePresentation": "hierarchical",
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "cSpell.words": [
+        "bossbar",
+        "bossbars",
+        "Bukkit",
+        "Ingame",
+        "petertimer",
+        "quantums"
+    ],
+    "maven.view": "flat"
 }

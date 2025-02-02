@@ -46,7 +46,7 @@ public class TimerCommands implements CommandExecutor {
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command com, String lable, String[] args) {
+	public boolean onCommand(CommandSender sender, Command com, String label, String[] args) {
 
 		if (args.length == 1) {
 			if (args[0].equals("list")) {
@@ -74,7 +74,7 @@ public class TimerCommands implements CommandExecutor {
 					case "stop" -> {
 						t.stop();
 						t.removeAllPlayers();
-						sender.sendMessage("Timer " + args[1] + " stoped");
+						sender.sendMessage("Timer " + args[1] + " stopped");
 						return true;
 					}
 					case "reset" -> {

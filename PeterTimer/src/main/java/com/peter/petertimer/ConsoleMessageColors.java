@@ -4,10 +4,10 @@ import net.md_5.bungee.api.ChatColor;
 
 public class ConsoleMessageColors {
 	
-	public static String WARNCOLOR = (ChatColor.YELLOW + "");
-	public static String ERRORCOLOR = (ChatColor.RED + "");
-	public static String RESETCOLOR = (ChatColor.RESET + "");
-	public static String WARN = (WARNCOLOR + "WARN: [PeterTimer] ");
-	public static String ERROR = (ERRORCOLOR + "ERROR: [PeterTimer] ");
-	public static String INFO = (RESETCOLOR + "INFO: [PeterTimer] ");
+	public static String WARN_COLOR = (ChatColor.YELLOW + "");
+	public static String ERROR_COLOR = (ChatColor.RED + "");
+	public static String RESET_COLOR = (ChatColor.RESET + "");
+	public static String WARN = (WARN_COLOR + "WARN: [PeterTimer] ");
+	public static String ERROR = (ERROR_COLOR + "ERROR: [PeterTimer] ");
+	public static String INFO = (RESET_COLOR + "INFO: [PeterTimer] ");
 }

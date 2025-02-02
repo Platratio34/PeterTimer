@@ -30,7 +30,7 @@ public abstract class AbstractTimer {
 	protected final Map<String, DisplayBar> bars = new HashMap<>();
 	/** If the color of the bar should change based on time */
 	protected boolean autoChange = true;
-	/** Map of callbacks by time remaning */
+	/** Map of callbacks by time remaining */
 	protected final Map<Integer, TimeRunnable> callbacks = new HashMap<>();
 	/** Maximum number to ticks between updates */
 	protected int maxBetween = 1;
@@ -40,7 +40,7 @@ public abstract class AbstractTimer {
 	public final Logger log;
 
 	/**
-	 * Initilize the timer
+	 * Initialize the timer
 	 * @param name Timer name
 	 * @param plugin Plugin the timer is running on
 	 */
@@ -83,35 +83,35 @@ public abstract class AbstractTimer {
 
 	/**
 	 * Update display bars
-	 * @param ticksRemaning Ticks remaning on the timer
+	 * @param ticksRemaining Ticks remaining on the timer
 	 * @param totalTicks Total (expected) ticks of the timer
 	 */
-	protected void updateBars(int ticksRemaning, int totalTicks) {
+	protected void updateBars(int ticksRemaining, int totalTicks) {
 		if(autoChange) {
-			if(ticksRemaning <= Math.min(200, totalTicks/5)) {
+			if(ticksRemaining <= Math.min(200, totalTicks/5)) {
 				for(DisplayBar b : bars.values()) {
 					b.setColor(BarColor.RED);
 				}
-			} else if(ticksRemaning <= totalTicks/2) {
+			} else if(ticksRemaining <= totalTicks/2) {
 				for(DisplayBar b : bars.values()) {
 					b.setColor(BarColor.YELLOW);
 				}
 			}
 		}
 		for(DisplayBar b : bars.values()) {
-			b.update(format(ticksRemaning), (double)ticksRemaning/(double)totalTicks);
+			b.update(format(ticksRemaining), (double)ticksRemaining/(double)totalTicks);
 		}
 	}
 
 	/**
 	 * Schedule the next update
-	 * @param ticksRemaning Number of (expected) ticks remaining
+	 * @param ticksRemaining Number of (expected) ticks remaining
 	 */
-	protected void scheduleNext(int ticksRemaning) {
+	protected void scheduleNext(int ticksRemaining) {
 		if(!running) {
 			return;
 		}
-		int next = runTill(maxBetween, ticksRemaning);
+		int next = runTill(maxBetween, ticksRemaining);
 		scheduler.scheduleSyncDelayedTask(plugin, () -> {
 				 update(next);
 		}, next);
@@ -143,9 +143,9 @@ public abstract class AbstractTimer {
 	}
 
 	/**
-	 * Returns a formated string expressing the time in seconds and minutes
+	 * Returns a formatted string expressing the time in seconds and minutes
 	 * @param ticks Amount of time in ticks
-	 * @return Formated time string
+	 * @return Formatted time string
 	 */
 	protected String format(int ticks) {
 		int s = ticks/20;

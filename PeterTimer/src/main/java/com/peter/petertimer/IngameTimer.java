@@ -4,7 +4,7 @@ import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
- * Ingame time based timer. Runs untill the specified ingame time
+ * Ingame time based timer. Runs until the specified ingame time
  */
 public class IngameTimer extends AbstractTimer {
 
@@ -87,7 +87,7 @@ public class IngameTimer extends AbstractTimer {
     /**
      * Change the end time of the timer
      * @param endTime New end time of the timer
-     * @throws IllegalArguemtnException If the new end time is not for the same world as the timer
+     * @throws IllegalArgumentException If the new end time is not for the same world as the timer
      */
     public void setEndTime(WorldDateTime endTime) {
         if(endTime.world != world) {
