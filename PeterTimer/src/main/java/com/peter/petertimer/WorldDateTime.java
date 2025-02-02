@@ -8,12 +8,15 @@ public class WorldDateTime {
      * Converter for a period of world time to real world time.
      * Equal to {@code (20 * 60) / (1000 * 24)}
      */
-    public static final float WORLD_TO_SECONDS = (20f * 60f) / (1000f * 24f); // 20 minutes per 24 hours of 1000 quantums
+    public static final float WORLD_TO_REAL_SECONDS = (20f * 60f) / (1000f * 24f); // 20 minutes per 24 hours of 1000 
+    public static final float TICKS_TO_WORLD_HOURS = (1f / 1000f); // 1000 ticks per hour
+    public static final float TICKS_TO_WORLD_MINUTES = (1f / (1000f / 60f)); // 1000 ticks per hour
 
     protected long ticks = 0;
 
     protected long day = 0;
     protected long hour = 0;
+    protected float minute = 0;
 
     /** World the time is represented in */
     public final World world;
@@ -39,9 +42,34 @@ public class WorldDateTime {
      */
     public WorldDateTime setTicks(long worldTime) {
         ticks = worldTime;
-        hour = ticks / 1000;
+        minute = (ticks * TICKS_TO_WORLD_MINUTES) % 60;
+        hour = (ticks / 1000) + 6; // Adding 6 hours to match how the ticks started at 6am on day 0
         day = hour / 24;
         hour %= 24;
+        return this;
+    }
+
+    /**
+     * Set the ticks past the hour
+     * @param hourTicks Ticks past the last hour [0-1000)
+     * @return This
+     */
+    public WorldDateTime setHourTicks(long hourTicks) {
+        long hours = (day * 24) + hour;
+        long ticks = (hours - 6) * 1000; // Removing 6 hours to account for ticks starting at 6am on day 0
+
+        setTicks(ticks + hourTicks);
+        return this;
+    }
+
+    /**
+     * Set the minute time
+     * @param minute Minutes [0-60)
+     * @return This
+     */
+    public WorldDateTime setMinute(int minute) {
+        this.minute = minute;
+        resetTime();
         return this;
     }
 
@@ -68,13 +96,13 @@ public class WorldDateTime {
     }
 
     protected void resetTime() {
-        ticks = (day * 24) + hour;
+        long hours = (day * 24) + hour;
 
-        hour = ticks;
-        day = hour / 24;
-        hour %= 24;
+        hour = hours % 24;
+        day = hours / 24;
 
-        ticks *= 1000;
+        ticks = (hours - 6) * 1000; // Removing 6 hours to account for ticks starting at 6am on day 0
+        ticks += minute / TICKS_TO_WORLD_MINUTES; // Add back the time from minutes
     }
 
     /**
@@ -150,32 +178,32 @@ public class WorldDateTime {
     }
 
     /**
-     * Get the nubmer of seconds (rounded to the nearest tick) until this time
-     * @return Seconds till the time represeted by this object
+     * Get the number of seconds (rounded to the nearest tick) until this time
+     * @return Seconds till the time represented by this object
      */
     public float secondsTill() {
-        return WORLD_TO_SECONDS * ticksTill();
+        return WORLD_TO_REAL_SECONDS * ticksTill();
     }
     /**
-     * Get the nubmer of seconds (rounded to the nearest tick) until this time
+     * Get the number of seconds (rounded to the nearest tick) until this time
      * @param currentWorldTime Current world time in ticks
-     * @return Seconds till the time represeted by this object
+     * @return Seconds till the time represented by this object
      */
     public float secondsTill(long currentWorldTime) {
-        return WORLD_TO_SECONDS * ticksTill(currentWorldTime);
+        return WORLD_TO_REAL_SECONDS * ticksTill(currentWorldTime);
     }
 
     @Override
     public String toString() {
-        return String.format("WorldDateTime{date=%d,hour=%d}", day, hour);
+        return String.format("WorldDateTime{date=%d,hour=%d,minute=%.0f}", day, hour, minute);
     }
 
     /**
-     * Get the time represted by this object as a formatted string
-     * @return Time formateed as DD:HH
+     * Get the time represented by this object as a formatted string
+     * @return Time formatted as DD HH:MM
      */
     public String formattedTime() {
-        return String.format("%02d:%02d", day, hour);
+        return String.format("%02d %02d:%02.0f", day, hour, minute);
     }
 
     /**
