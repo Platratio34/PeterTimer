@@ -10,14 +10,14 @@ Added `IngameTimer` for timing based on ingame time
 
 - Moved all classes from `peterTimer` to `com.peter.petertimer`
 - `Timer`
-    - Removed deprocated constructor `Timer(int, String, Map<Integer,TimeRunnable>, boolean, JavaPlugin)`
-    - Removed deprocated constructor `Timer(int, Map<Integer,TimeRunnable>, boolean, JavaPlugin)`
+    - Removed deprecated constructor `Timer(int, String, Map<Integer,TimeRunnable>, boolean, JavaPlugin)`
+    - Removed deprecated constructor `Timer(int, Map<Integer,TimeRunnable>, boolean, JavaPlugin)`
     - Removed function `getTicksRemaning(): int` -> Replaced with `getTime(): int` from `AbstractTimer`
     - Removed function `getSecondsRemaning(): int` -> Replaced with `getSeconds(): float` from `AbstractTimer`
-    - Removed deproctaed function `setName(String)`
+    - Removed deprecated function `setName(String)`
     - Changed visibility of `update(int)` from `public` to `protected`
 - `TimeRunnable`
-    - Changed signature of `run(Timer)` to `run(AbstractTimer)`
+    - Changed signature of `TimeRunnable.run(Timer)` to `TimeRunnable.run(AbstractTimer)`
 
 ### Modifications
 - Added `AbstractTimer`
@@ -51,7 +51,7 @@ Added `IngameTimer` for timing based on ingame time
         - `protected scheduleNext(int)`
 - `Timer` now inherits from `AbstractTimer`
 - Added `IngameTimer`
-    - Runs till a secified in-game
+    - Runs till a secified in-game time
     - Constructors
         - `IngameTimer(String name, JavaPlugin plugin, long endTime, World world)`
         - `IngameTimer(String name, JavaPlugin plugin, WorldDateTime endTime)`
