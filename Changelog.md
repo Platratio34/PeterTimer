@@ -1,6 +1,22 @@
 # Changelog
 
-## v3.0.0 -> 3.1.0
+## v3.1.0 -> v3.1.1
+
+### Modifications
+
+- The following functions now throw a `NoSuchElementException` when trying to access a missing bar instead of just logging it
+    - `AbstractTimer.setTitle(String,String)`
+    - `AbstractTimer.setColor(BarColor,String)`
+    - `AbstractTimer.setStyle(BarStyle,String)`
+    - `AbstractTimer.addAllPlayers(String)`
+    - `AbstractTimer.addPlayer(Player,String)`
+    - `AbstractTimer.addPlayer(List<Player>,String)`
+    - `AbstractTimer.removeAllPlayers(String)`
+    - `AbstractTimer.removePlayer(Player,String)`
+    - `AbstractTimer.removePlayer(List<Player>,String)`
+- Added function `AbstractTimer.hasBar(String): boolean`
+
+## v3.0.0 -> v3.1.0
 
 ### Breaking Changes
 - Renamed `WorldDateTime.WORLD_TO_SECONDS` to `WORLD_TO_REAL_SECONDS`
