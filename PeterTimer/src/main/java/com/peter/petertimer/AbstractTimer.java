@@ -3,6 +3,7 @@ package com.peter.petertimer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -234,8 +235,8 @@ public abstract class AbstractTimer {
 	public void setTitle(String title, String bar) {
 		if (bars.containsKey(bar)) {
 			bars.get(bar).setName(title);
-		} else {
-			log.log(Level.WARNING, " func: setTitle; Invalid bar key: {0}", bar);
+        } else {
+            throw new NoSuchElementException("Timer has not bar with key '" + bar + "'");
 		}
 	}
 
@@ -264,7 +265,7 @@ public abstract class AbstractTimer {
 		if (bars.containsKey(bar)) {
 			bars.get(bar).setColor(color);
 		} else {
-			log.log(Level.WARNING, " func: setColor; Invalid bar key: {0}", bar);
+            throw new NoSuchElementException("Timer has not bar with key '" + bar + "'");
 		}
 	}
 
@@ -285,7 +286,7 @@ public abstract class AbstractTimer {
 		if (bars.containsKey(bar)) {
 			bars.get(bar).setStyle(style);
 		} else {
-			log.log(Level.WARNING, " func: setStyle; Invalid bar key: {0}", bar);
+            throw new NoSuchElementException("Timer has not bar with key '" + bar + "'");
 		}
 	}
 
@@ -312,9 +313,18 @@ public abstract class AbstractTimer {
 	 * @param bar Bar name
 	 * @return Bar
 	 */
-	public DisplayBar getBar(String bar) {
-		return bars.get(bar);
-	}
+    public DisplayBar getBar(String bar) {
+        return bars.get(bar);
+    }
+    
+    /**
+	 * Checks if the timer has a bar for the given name
+	 * @param bar Bar name
+	 * @return Has bar
+	 */
+    public boolean hasBar(String bar) {
+        return bars.containsKey(bar);
+    }
 
 	/**
 	 * Adds all players to the main bar
@@ -328,6 +338,7 @@ public abstract class AbstractTimer {
 	/**
 	 * Adds all players to a bar
 	 * @param bar Bar to add them to
+     * @throws NoSuchElementException If the timer dose not have the specified bar
 	 */
 	public void addAllPlayers(String bar) {
 		if (bars.containsKey(bar)) {
@@ -335,7 +346,7 @@ public abstract class AbstractTimer {
 				bars.get(bar).addPlayer(player);
 			}
 		} else {
-			log.log(Level.WARNING, " func: addAllPlayers; Invalid bar key: {0}", bar);
+            throw new NoSuchElementException("Timer has not bar with key '" + bar + "'");
 		}
 	}
 
@@ -351,12 +362,13 @@ public abstract class AbstractTimer {
 	 * Adds a player to a bar
 	 * @param player   Player to add
 	 * @param bar Bar to add them to
+     * @throws NoSuchElementException If the timer dose not have the specified bar
 	 */
 	public void addPlayer(Player player, String bar) {
 		if (bars.containsKey(bar)) {
 			bars.get(bar).addPlayer(player);
 		} else {
-			log.log(Level.WARNING, " func: addPlayer; Invalid bar key: {0}", bar);
+            throw new NoSuchElementException("Timer has not bar with key '" + bar + "'");
 		}
 	}
 
@@ -374,6 +386,7 @@ public abstract class AbstractTimer {
 	 * Adds a list of players to a bar
 	 * @param players   List of players to add
 	 * @param bar Bar to add them to
+     * @throws NoSuchElementException If the timer dose not have the specified bar
 	 */
 	public void addPlayer(List<Player> players, String bar) {
 		if (bars.containsKey(bar)) {
@@ -381,7 +394,7 @@ public abstract class AbstractTimer {
 				bars.get(bar).addPlayer(player);
 			}
 		} else {
-			log.log(Level.WARNING, " func: addPlayer; Invalid bar key: {0}", bar);
+            throw new NoSuchElementException("Timer has not bar with key '" + bar + "'");
 		}
 	}
 
@@ -406,7 +419,7 @@ public abstract class AbstractTimer {
 				bars.get(bar).removePlayer(player);
 			}
 		} else {
-			log.log(Level.WARNING, " func: removeAllPlayers; Invalid bar key: {0}", bar);
+            throw new NoSuchElementException("Timer has not bar with key '" + bar + "'");
 		}
 	}
 
@@ -422,12 +435,13 @@ public abstract class AbstractTimer {
 	 * Removes a player from the timer
 	 * @param player   Player to remove
 	 * @param bar Bar to remove them from
+     * @throws NoSuchElementException If the timer dose not have the specified bar
 	 */
 	public void removePlayer(Player player, String bar) {
 		if (bars.containsKey(bar)) {
 			bars.get(bar).removePlayer(player);
 		} else {
-			log.log(Level.WARNING, " func: removePlayer; Invalid bar key: {0}", bar);
+            throw new NoSuchElementException("Timer has not bar with key '" + bar + "'");
 		}
 	}
 
@@ -442,17 +456,18 @@ public abstract class AbstractTimer {
 	}
 
 	/**
-	 * Removes a list of players from the timer
-	 * @param players   List of players to remove
-	 * @param bar Bar to remove them from
-	 */
+     * Removes a list of players from the timer
+     * @param players   List of players to remove
+     * @param bar Bar to remove them from
+     * @throws NoSuchElementException If the timer dose not have the specified bar
+     */
 	public void removePlayer(List<Player> players, String bar) {
 		if (bars.containsKey(bar)) {
 			for (Player player : players) {
 				bars.get(bar).removePlayer(player);
 			}
 		} else {
-			log.log(Level.WARNING, " func: removePlayer; Invalid bar key: {0}", bar);
+            throw new NoSuchElementException("Timer has not bar with key '" + bar + "'");
 		}
 	}
 
